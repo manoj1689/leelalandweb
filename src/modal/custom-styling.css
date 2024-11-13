@@ -1,0 +1,12 @@
+
+
+/* Modal with purple background, rounded corners, and max-width */
+.customModal {
+  background: gray; /* Purple background for the modal */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  max-width: 500px; /* Maximum width for the modal */
+  width: 100%; /* Full width within the max-width constraint */
+  margin: auto;
+ 
+}
