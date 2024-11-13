@@ -1,6 +1,6 @@
 // src/services/chatService.ts
 import {ChatMessage,ChatRequest,ChatResponse } from "../interfaces/interfaces"
-const baseUrl = import.meta.env.VITE_BASE_URL;
+
 export const sendChat = async (chatData: ChatRequest): Promise<ChatResponse> => {
   const token = localStorage.getItem('user_token'); // Get the token from localStorage
   console.log("token at chat service",token)
@@ -8,7 +8,7 @@ export const sendChat = async (chatData: ChatRequest): Promise<ChatResponse> => 
     throw new Error('Authentication token is missing');
   }
   console.log("chatData",chatData)
-  const response = await fetch(`${baseUrl}/chat`, {
+  const response = await fetch(`http://43.248.241.252:8081/chat`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
