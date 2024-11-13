@@ -111,8 +111,9 @@ const CharacterSelectionPage: React.FC = () => {
 
 
       <div className="flex  ">
-
-        {/* Left side: Character and Scenario List */}
+        { listSelectedCharacter.length>0 && (
+          <>
+           {/* Left side: Character and Scenario List */}
         <div className='w-1/2 md:w-1/4  '>
           <div className=" flex flex-col w-full h-full bg-gray-900  ">
             <div className='p-4'>
@@ -149,7 +150,12 @@ const CharacterSelectionPage: React.FC = () => {
 
           </div>
         </div>
-        <div className="w-1/2 md:w-3/4">
+          </>
+        )
+
+        }
+       
+        <div className="w-full">
         <div className='flex bg-gray-700  py-2 w-full justify-center items-center '>
           <div className='flex gap-5'>
           

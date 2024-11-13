@@ -1,9 +1,9 @@
 // src/services/apiService.ts
-
+const baseUrl = import.meta.env.VITE_BASE_URL;
 import { ISignupData } from '../interfaces/interfaces';
 
 export const signupUser = async (signupData: ISignupData) => {
-  const response = await fetch('http://127.0.0.1:8000/signup', {
+  const response = await fetch(`${baseUrl}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

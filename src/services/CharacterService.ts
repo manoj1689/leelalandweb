@@ -1,5 +1,7 @@
 // src/services/characterService.ts
 // http://127.0.0.1:8000
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 interface Character {
     id: string;
     name: string;
@@ -9,7 +11,7 @@ interface Character {
   
   export const getCharacters = async (): Promise<Character[]> => {
   
-    const response = await fetch('http://127.0.0.1:8000/characters', {
+    const response = await fetch(`${baseUrl}/characters`, {
       method: 'GET',
       headers: {
         'accept': 'application/json',

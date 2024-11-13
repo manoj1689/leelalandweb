@@ -1,5 +1,5 @@
 // src/services/scenarioService.ts
-
+const baseUrl = import.meta.env.VITE_BASE_URL;
 interface Scenario {
     id: string;
     title: string;
@@ -11,7 +11,7 @@ interface Scenario {
   
   
   
-    const response = await fetch('http://127.0.0.1:8000/scenarios', {
+    const response = await fetch(`${baseUrl}/scenarios`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

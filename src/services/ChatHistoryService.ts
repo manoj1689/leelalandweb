@@ -1,9 +1,11 @@
+const baseUrl = import.meta.env.VITE_BASE_URL;
 interface ChatMessageResponse {
     role: string;
     content: string;
     character_id: string;
     scenario_id: string;
   }
+ 
   
   export const getChatHistory = async (characterId=String): Promise<ChatMessageResponse[]> => {
     // Retrieve the token from local storage
@@ -13,7 +15,7 @@ interface ChatMessageResponse {
       throw new Error('User is not authenticated');
     }
   
-    const response = await fetch(`http://127.0.0.1:8000/chat-history?character_id=${characterId}`, {
+    const response = await fetch(`${baseUrl}/chat-history?character_id=${characterId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
