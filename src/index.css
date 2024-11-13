@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Charm:wght@400;700&display=swap');
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* index.css */
+
+/* Set the background color to black for the entire body */
+body {
+    background-color: black;
+    color: white; /* Ensures text is visible on the black background */
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+ 
+  
