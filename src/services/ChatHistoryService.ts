@@ -1,4 +1,4 @@
-
+const baseUrl = import.meta.env.VITE_BASE_URL;
 interface ChatMessageResponse {
     role: string;
     content: string;
@@ -15,7 +15,7 @@ interface ChatMessageResponse {
       throw new Error('User is not authenticated');
     }
   
-    const response = await fetch(`http://43.248.241.252:8081/chat-history?character_id=${characterId}`, {
+    const response = await fetch(`${baseUrl}/chat-history?character_id=${characterId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
