@@ -11,7 +11,7 @@ interface Scenario {
   
   
   
-    const response = await fetch(`${baseUrl}/scenarios`, {
+    const response = await fetch(`//43.248.241.252:8081/scenarios`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

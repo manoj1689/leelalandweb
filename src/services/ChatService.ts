@@ -8,7 +8,7 @@ export const sendChat = async (chatData: ChatRequest): Promise<ChatResponse> => 
     throw new Error('Authentication token is missing');
   }
   console.log("chatData",chatData)
-  const response = await fetch(`${baseUrl}/chat`, {
+  const response = await fetch(`//43.248.241.252:8081/chat`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

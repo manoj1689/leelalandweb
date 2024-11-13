@@ -24,7 +24,7 @@ export async function handleGoogleSignIn(googleCredential: string) {
   console.log("Request body:", requestBody);
 
   try {
-    const response = await fetch(`${baseUrl}/google_signin`, {
+    const response = await fetch(`//43.248.241.252:8081/google_signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

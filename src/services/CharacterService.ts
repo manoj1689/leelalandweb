@@ -11,7 +11,7 @@ interface Character {
   
   export const getCharacters = async (): Promise<Character[]> => {
   
-    const response = await fetch(`${baseUrl}/characters`, {
+    const response = await fetch(`//43.248.241.252:8081/characters`, {
       method: 'GET',
       headers: {
         'accept': 'application/json',
