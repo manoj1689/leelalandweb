@@ -1,7 +1,5 @@
 // src/services/scenarioService.ts
-//const baseUrl = import.meta.env.VITE_BASE_URL;
-import { API_BASE_URL } from "../constants/Constants";
-
+const baseUrl = import.meta.env.VITE_BASE_URL;
 interface Scenario {
     id: string;
     title: string;
@@ -13,7 +11,7 @@ interface Scenario {
   
   
   
-    const response = await fetch(`${API_BASE_URL }/scenarios`, {
+    const response = await fetch(`${baseUrl}/scenarios`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
