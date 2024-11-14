@@ -1,4 +1,5 @@
-const baseUrl = import.meta.env.VITE_BASE_URL;
+//const baseUrl = import.meta.env.VITE_BASE_URL;
+import { API_BASE_URL } from "../constants/Constants";
 interface ChatMessageResponse {
     role: string;
     content: string;
@@ -15,7 +16,7 @@ interface ChatMessageResponse {
       throw new Error('User is not authenticated');
     }
   
-    const response = await fetch(`${baseUrl}/chat-history?character_id=${characterId}`, {
+    const response = await fetch(`${API_BASE_URL}/chat-history?character_id=${characterId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

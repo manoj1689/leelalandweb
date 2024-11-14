@@ -1,7 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
+//const baseUrl = import.meta.env.VITE_BASE_URL;
 import { API_BASE_URL } from "../constants/Constants";
-
-const baseUrl = import.meta.env.VITE_BASE_URL;
 // Define the custom type for the decoded Google token
 interface DecodedGoogleToken {
   sub: string;     // Google’s unique identifier for the user
@@ -26,7 +25,7 @@ export async function handleGoogleSignIn(googleCredential: string) {
   console.log("Request body:", requestBody);
 
   try {
-    const response = await fetch(`${baseUrl}/google_signin`, {
+    const response = await fetch(`${API_BASE_URL}/google_signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
