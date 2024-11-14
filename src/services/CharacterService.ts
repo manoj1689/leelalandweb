@@ -9,7 +9,7 @@ interface Character {
     description: string;
     // Include other properties based on your API response
   }
-//console.log("baseurl",baseUrl)
+console.log("baseurl",API_BASE_URL)
   export const getCharacters = async (): Promise<Character[]> => {
   
     const response = await fetch(`${API_BASE_URL}/characters`, {

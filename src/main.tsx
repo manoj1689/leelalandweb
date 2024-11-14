@@ -5,7 +5,7 @@ import App from './App.tsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // Extract the Google client ID from environment variables
-const googleClientId = import.meta.env.REACT_APP_GOOGLE_CLIENT_ID;
+const googleClientId = import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

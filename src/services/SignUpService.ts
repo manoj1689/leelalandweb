@@ -1,7 +1,6 @@
 // src/services/apiService.ts
 //const baseUrl = import.meta.env.VITE_BASE_URL;
 import { API_BASE_URL } from "../constants/Constants";
-
 import { ISignupData } from '../interfaces/interfaces';
 
 export const signupUser = async (signupData: ISignupData) => {
