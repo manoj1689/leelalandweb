@@ -1,5 +1,5 @@
 // src/services/scenarioService.ts
-
+import BASE_URL from '../routes/BaseApi';
 interface Scenario {
     id: string;
     title: string;
@@ -11,7 +11,7 @@ interface Scenario {
   
   
   
-    const response = await fetch('http://127.0.0.1:8000/scenarios', {
+    const response = await fetch(`${BASE_URL}/scenarios`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -1,3 +1,4 @@
+import BASE_URL from '../routes/BaseApi';
 interface ChatMessageResponse {
     role: string;
     content: string;
@@ -13,7 +14,7 @@ interface ChatMessageResponse {
       throw new Error('User is not authenticated');
     }
   
-    const response = await fetch(`http://127.0.0.1:8000/chat-history?character_id=${characterId}`, {
+    const response = await fetch(`${BASE_URL}/chat-history?character_id=${characterId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

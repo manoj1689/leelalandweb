@@ -39,7 +39,7 @@ export interface ISignupData {
 export interface ChatRequest {
   user_id: string;
   character_id: string;
-  scenario_id: string;
+  scenario_id: any;
   chat_history: { role: string; content: string }[];
   temperature: number;
 }

@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-
+import BASE_URL from '../routes/BaseApi';
 // Define the custom type for the decoded Google token
 interface DecodedGoogleToken {
   sub: string;     // Google’s unique identifier for the user
@@ -24,7 +24,7 @@ export async function handleGoogleSignIn(googleCredential: string) {
   console.log("Request body:", requestBody);
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/google_signin", {
+    const response = await fetch(`${BASE_URL}/google_signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

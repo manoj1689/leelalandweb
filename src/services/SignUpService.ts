@@ -1,9 +1,9 @@
 // src/services/apiService.ts
-
+import BASE_URL from '../routes/BaseApi';
 import { ISignupData } from '../interfaces/interfaces';
 
 export const signupUser = async (signupData: ISignupData) => {
-  const response = await fetch('http://127.0.0.1:8000/signup', {
+  const response = await fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 // src/services/chatService.ts
 import {ChatMessage,ChatRequest,ChatResponse } from "../interfaces/interfaces"
+import BASE_URL from '../routes/BaseApi';
 
 export const sendChat = async (chatData: ChatRequest): Promise<ChatResponse> => {
   const token = localStorage.getItem('user_token'); // Get the token from localStorage
@@ -8,7 +9,7 @@ export const sendChat = async (chatData: ChatRequest): Promise<ChatResponse> => 
     throw new Error('Authentication token is missing');
   }
   console.log("chatData",chatData)
-  const response = await fetch('http://127.0.0.1:8000/chat', {
+  const response = await fetch(`${BASE_URL}/chat`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

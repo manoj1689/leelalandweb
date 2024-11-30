@@ -1,32 +1,24 @@
 import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Header from '../components/Header';
 
-import { googleLogout } from '@react-oauth/google';
-
 function Layout() {
-  const navigate = useNavigate(); // Move useNavigate inside the component
-
-  const handleGoogleLogout = () => {
-    googleLogout();
-    navigate("/"); // Redirect to home or login page after logout
-  };
-
   return (
-    <div>
-      <div className='fixed top-0 w-full'>
-      <Header onLogout={handleGoogleLogout} />
+    <div className="flex flex-col h-screen">
+      {/* Header Section */}
+      <div className="h-20 flex-shrink-0">
+        <Header />
       </div>
-   
-      <div className='fixed top-20 w-full' >
+
+      {/* Main Content Section */}
+      <div className="fixed top-20 w-full">
         <Outlet />
       </div>
-    
-     
     </div>
   );
 }
 
 export default Layout;
+
 
 

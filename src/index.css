@@ -1,19 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Charm:wght@400;700&display=swap');
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-
-
+/* Tailwind's base styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* index.css */
+
+/* Apply Montserrat font to all text */
+*,
+*::before,
+*::after {
+  font-family: 'Montserrat', sans-serif;
+}
 
 /* Set the background color to black for the entire body */
 body {
     background-color: black;
     color: white; /* Ensures text is visible on the black background */
     margin: 0;
-    font-family: Arial, sans-serif;
+   
+    
   }
   
- 
+  html {
+    scroll-behavior: smooth;
+  }
+  
   

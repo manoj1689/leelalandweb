@@ -6,16 +6,10 @@ export default {
   ],
   theme: {
     extend: {
-    
-        fontFamily: {
-          'charm': ['Charm', 'cursive'], // Adding "Charm" font family
-        },
-        fontWeight: {
-          regular: 400,
-          bold: 700,
-        },
+      fontFamily: {
+        sans: ['Montserrat', 'sans-serif'], // Default font for sans-serif elements
       },
-    
+    },
   },
   plugins: [],
 }
