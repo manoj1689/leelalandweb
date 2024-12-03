@@ -2,6 +2,7 @@
 import 'react-responsive-modal/styles.css';
 import '../modal/custom-styling.css';
 import React, { useState, useEffect } from 'react';
+import {Character,Scenario,CombinedData}from "../interfaces/interfaces"
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
@@ -27,6 +28,39 @@ const CharacterSelectionPage: React.FC = () => {
   const [partners, setPartners] = useState<any[]>([]); // State for partners
   const token = localStorage.getItem('user_token');
 
+  const combineScenariosAndCharacters = (
+    scenarios: Scenario[],
+    characters: Character[]
+  ): CombinedData[] => {
+    return scenarios.flatMap((scenario) =>
+      scenario.characters
+        .map((charId) => {
+          const character = characters.find((char) => char.id === charId);
+          return character
+            ? {
+                scenarioId: scenario.id,
+                topic: scenario.topic,
+                category: scenario.category,
+                difficulty: scenario.difficulty,
+                context: scenario.context,
+                prompt: scenario.prompt,
+                character: {
+                  id: character.id,
+                  name: character.name,
+                  description: character.description,
+                  behavior: character.behavior,
+                  identity: character.identity,
+                  imageName: character.image_name,
+                },
+              }
+            : null; // Return null if no matching character is found
+        })
+        .filter(Boolean) as CombinedData[] // Type assertion to ensure only non-null values remain
+    );
+  };
+  
+  const combinedData = combineScenariosAndCharacters(scenarios, characters);
+console.log("list of all data" ,combinedData )
   useEffect(() => {
     // Retrieve `user_id` from localStorage
     const userId = localStorage.getItem('user_id');
@@ -163,7 +197,7 @@ const CharacterSelectionPage: React.FC = () => {
  >
    {isSidebarOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
  </button>
- <div className="sm:hidden fixed top-4 left-16 z-50 text-xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC] p-2 ">
+ <div className="sm:hidden fixed top-6 left-16 z-50  text-lg font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC]  ">
    Leela Land
  </div>
  <div
@@ -306,80 +340,87 @@ const CharacterSelectionPage: React.FC = () => {
           className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 m-4 "
 
         >
-          {characters.map((character, index) => {
-            const scenario = scenarios[index];
-            return (
-              scenario && (
-                <div className="relative flex flex-col  rounded-lg overflow-hidden"  >
-                  {/* Background Gradient Image */}
-                  <div className="absolute inset-0 ">
-                    <img
-                      src="./image/backprint.jpg"
-                      alt="background"
-                      className="w-full h-full object-cover opacity-40"
-                    />
-                  </div>
-                   
-                  {/* Blackish Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#342F66] via-[#4b2b61] to-[#4A0F58]  mt-16"></div>
+        {combinedData.map((ScenarioChar, index) => {
+  return (
+    ScenarioChar && ScenarioChar.character && (
+      <div key={index} className="relative flex flex-col rounded-lg overflow-hidden">
+        {/* Background Gradient Image */}
+        <div className="absolute inset-0">
+          <img
+            src="./image/backprint.jpg"
+            alt="background"
+            className="w-full h-full object-cover opacity-40"
+          />
+        </div>
 
+        {/* Blackish Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#342F66] via-[#4b2b61] to-[#4A0F58] mt-16"></div>
 
+        {/* Content Section */}
+        <div
+          className="relative flex flex-col p-4 cursor-pointer"
+          onClick={() =>
+            handleCardClick(
+              ScenarioChar.character.name,
+              ScenarioChar.character.imageName,
+              ScenarioChar.character.description,
+              ScenarioChar.character.identity,
+              ScenarioChar.topic,
+              ScenarioChar.context,
+              ScenarioChar.prompt,
+              ScenarioChar.character.imageName // Assuming scenario.image was incorrect and meant character.imageName
+            )
+          }
+        >
+          {/* Top Section */}
+          <div className="flex w-full gap-3 bg-transparent rounded-t-md">
+            <div className="flex md:w-1/4 justify-start items-center">
+              <div className="flex">
+                <img
+                  src={`./image/profiles/${ScenarioChar.character.imageName}`}
+                  alt={ScenarioChar.character.imageName}
+                  className="rounded-full w-20 h-20 object-fill"
+                />
+              </div>
+            </div>
+            <div className="md:w-3/4 text-white mt-4">
+              <span className="text-lg font-semibold">{ScenarioChar.topic}</span>
+              <p className="text-[#a2c5ff] font-sans font-medium italic mt-4 md:text-xs">
+                {ScenarioChar.character.name}
+              </p>
+            </div>
+          </div>
 
-
-                  {/* Content Section */}
-                  <div className="relative flex flex-col p-4 cursor-pointer" onClick={() => handleCardClick(character.name, character.image_name,character.description,character.identity, scenario.topic, scenario.context,scenario.prompt,scenario.image)}>
-                    {/* Top Section */}
-                    <div className="flex w-full gap-3 bg-transparent rounded-t-md">
-                      <div className="flex md:w-1/4 justify-start items-center">
-                        <div className='flex'>
-                          <img
-                            src={`./image/profiles/${character.image_name}`}
-                            alt={character.image_name}
-                            className="rounded-full w-20 h-20 object-fill"
-                          />
-
-                        </div>
-                      </div>
-                      <div className="md:w-3/4 text-white mt-4">
-                        <span className="text-lg  font-semibold ">{character.name}</span>
-                        <p className="text-[#a2c5ff] font-sans font-medium italic mt-4 md:text-xs ">
-                          {scenario.topic}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Bottom Section */}
-                    <div className="rounded-b-md">
-                      <div>
-                        <div className="flex w-full text-white text-sm font-thin p-2">
-                          {/* Adjust text to fit within two lines */}
-                          <div className="line-clamp-2 font-sans font-medium">
-                            {scenario.context}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex py-2 justify-between">
-                        <div className='flex gap-2'>
-                          <span><IoMdChatbubbles size={20} color='gray' /></span>
-                          <span className='text-xs text-gray-400'>
-                            {(Math.random() * (99 - 10) + 10).toFixed(1)}k
-                          </span>
-
-
-
-                        </div>
-                        <button className="flex items-center justify-center rounded-full font-bold text-xs text-white px-4 py-2 bg-gradient-to-b from-[#C702F5] to-[#2F9FFC]  " >
-                          Chat Now
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+          {/* Bottom Section */}
+          <div className="rounded-b-md">
+            <div>
+              <div className="flex w-full text-white text-sm font-thin p-2">
+                {/* Adjust text to fit within two lines */}
+                <div className="line-clamp-2 font-sans font-medium">
+                  {ScenarioChar.context}
                 </div>
+              </div>
+            </div>
+            <div className="flex py-2 justify-between">
+              <div className="flex gap-2">
+                <span>
+                  <IoMdChatbubbles size={20} color="gray" />
+                </span>
+                <span className="text-xs text-gray-400">
+                  {(Math.random() * (99 - 10) + 10).toFixed(1)}k
+                </span>
+              </div>
+              <button className="flex items-center justify-center rounded-full font-bold text-xs text-white px-4 py-2 bg-gradient-to-b from-[#C702F5] to-[#2F9FFC]">
+                Chat Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  );
+})}
 
-
-              )
-            );
-          })}
 
         </div>
 

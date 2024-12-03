@@ -7,6 +7,7 @@ import ChatPage from './pages/ChatPage';
 import ChatPartnerPage from './pages/ChatPartner';
 import SettingPage from './pages/SettingPage';
 import Layout from './components/Layout';
+import SearchCharacterPage from './pages/SearchCharacterPage';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Route path="/" element={<Layout />}>
 
           <Route index element={<CharacterSelectionPage />} />
+          <Route path="searchcharacter" element={<SearchCharacterPage />} />
           <Route path="chat" element={<ChatPage />} />
           <Route path="chatpartner" element={<ChatPartnerPage />} />
           <Route path="Settings" element={<SettingPage />} />

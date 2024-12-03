@@ -47,3 +47,40 @@ export interface ChatRequest {
 export interface ChatResponse {
   response: string; // Adjust the structure as per your actual API response
 }
+
+
+export type Scenario = {
+  id: number;
+  topic: string;
+  category: string;
+  difficulty: string;
+  context: string;
+  prompt: string;
+  characters: number[]; // Array of character IDs
+};
+
+export type Character = {
+  id: number;
+  name: string;
+  description: string;
+  behavior: string[];
+  identity: string[];
+  image_name: string;
+};
+
+export type CombinedData = {
+  scenarioId: number;
+  topic: string;
+  category: string;
+  difficulty: string;
+  context: string;
+  prompt: string;
+  character: {
+    id: number;
+    name: string;
+    description: string;
+    behavior: string[];
+    identity: string[];
+    imageName: string;
+  };
+};

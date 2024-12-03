@@ -135,7 +135,7 @@ console.log("chat history",chatHistory)
         > 
           {isSidebarOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
         </button>
-        <div className="sm:hidden fixed top-4 left-16 z-50 text-xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC] p-2 ">
+        <div className="sm:hidden fixed top-4 left-16 z-50  text-lg font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC] p-2 ">
           Leela Land
         </div>
       {/* Sidebar Section */}
@@ -248,7 +248,7 @@ console.log("chat history",chatHistory)
                   entry.role === 'user' ? 'bg-[#655762] text-white' : 'bg-[#3A5470] text-white'
                 } max-w-2xl`}
               >
-                <p><TextChat text={entry.content} /> </p>
+                {/* <p><TextChat text={entry.content} /> </p> */}
                 <p>{entry.content} </p>
               </div>
               {entry.role === 'user' && (
