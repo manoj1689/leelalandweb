@@ -81,7 +81,7 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
         try {
             const response = await addPartner(partnerData);
             console.log("Partner added successfully:", response);
-            alert("Partner added successfully!");
+            // alert("Partner added successfully!");
 
             // Reset all fields
             setName("");

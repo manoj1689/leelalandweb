@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { IoMdChatbubbles } from "react-icons/io";
 import { getCharacters } from "../services/CharacterService";
 import { getScenarios } from "../services/SenarioService";
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { Character, Scenario, CombinedData } from "../interfaces/interfaces";
+import { FaUserLarge } from "react-icons/fa6";
 
 const SearchCharacterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -161,11 +162,47 @@ const SearchCharacterPage: React.FC = () => {
 
   return (
     <div>
-      <div className='flex' onClick={() => navigate("/")}>
-        <img src="./image/Group.png" alt="website logo" className="sm:hidden fixed top-6 left-4 z-50w-8 h-8 sm:w-12 sm:h-12" />
-        <div className="sm:hidden fixed top-6 left-16 z-50  text-lg font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC]  ">
-          Leela Land
+      <div className='w-full flex fixed top-0 h-20 '>
+        <div className="flex w-[90%] gap-10 mx-auto">
+          <div className="flex   ">
+            <div className="flex w-full gap-5  items-center ">
+              <div>
+              <IoMdArrowRoundBack  size={28} color="white"  onClick={() => navigate(-1)} className="cursor-pointer" />
+              </div>
+              <div className="max-sm:hidden">
+                <h2 className="text-xl font-bold text-nowrap text-white">Search</h2>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Search Bar */}
+          <div className=" w-full flex py-4 justify-center">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Search Your AI Partner.."
+              className="bg-gray-800 text-white px-4 py-2 rounded-lg w-full "
+            />
+          </div>
+
+          <div className="flex justify-center items-center  ">
+            <div>
+              <button
+                onClick={() => navigate("/settings")}
+                className='flex p-4 bg-slate-700 rounded-full justify-center items-center'
+              >
+                <div >
+                  <FaUserLarge size={20} />
+                </div>
+              </button>
+            </div>
+
+          </div>
         </div>
+
+
       </div>
 
       <div className='w-full overflow-y-auto' style={{ height: 'calc(100vh - 5rem)' }}>
@@ -177,19 +214,7 @@ const SearchCharacterPage: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className='flex gap-5 justify-center items-center'>
-          <IoIosArrowBack size={25} onClick={() => navigate(-1)} className="cursor-pointer" />
-          {/* Search Bar */}
-          <div className="m-4 flex justify-center">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              placeholder="Search Your AI Partner.."
-              className="bg-gray-800 text-white px-4 py-2 rounded-full w-full sm:w-96"
-            />
-          </div>
-        </div>
+
 
 
         {/* Filter Options */}
@@ -198,7 +223,7 @@ const SearchCharacterPage: React.FC = () => {
             <button
               key={index}
               onClick={() => handleFilterChange(title === "All" ? '' : title)}
-              className={`px-4 py-2 rounded ${filterOption === title ? 'bg-gray-600' : (title === "All" ? 'bg-blue-500' : 'bg-stone-900')} text-white`}
+              className={`px-4 py-2 rounded ${filterOption === title ? 'bg-gray-600' : (title === "All" ? 'bg-gradient-to-b from-[#342F66] via-[#4b2b61] to-[#4A0F58]' : 'bg-stone-900')} text-white`}
             >
               {title}
             </button>
@@ -211,16 +236,17 @@ const SearchCharacterPage: React.FC = () => {
             ScenarioChar && ScenarioChar.character && (
               <div key={index} className="relative flex flex-col rounded-lg overflow-hidden">
                 {/* Background Gradient Image */}
-                <div className="absolute inset-0">
+                {/* <div className="absolute inset-0">
                   <img
                     src="./image/backprint.jpg"
                     alt="background"
                     className="w-full h-full object-cover opacity-10"
                   />
-                </div>
+                </div> */}
 
                 {/* Blackish Overlay */}
-                <div className="absolute inset-0 bg-transparent"></div>
+                {/* <div className="absolute inset-0 bg-transparent"></div> */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#342F66] via-[#4b2b61] to-[#4A0F58]"></div>
 
                 {/* Content Section */}
                 <div
@@ -250,7 +276,7 @@ const SearchCharacterPage: React.FC = () => {
                     <div className="text-white w-3/4 md:w-5/6">
                       <span className="text-lg font-semibold"> {ScenarioChar.topic}</span>
                       <p className="text-[#a2c5ff] font-sans font-medium italic md:text-xs">
-                       {ScenarioChar.character.name}
+                        {ScenarioChar.character.name}
                       </p>
                       <div className="flex w-full text-white text-sm font-thin">
                         <div className="line-clamp-2 font-sans font-medium">

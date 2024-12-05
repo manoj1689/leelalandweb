@@ -2,6 +2,7 @@
 import 'react-responsive-modal/styles.css';
 import '../modal/custom-styling.css';
 import React, { useState, useEffect } from 'react';
+import Header from './Header';
 import {Character,Scenario,CombinedData}from "../interfaces/interfaces"
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
@@ -13,7 +14,7 @@ import { getCharacters } from '../services/CharacterService';
 import { getScenarios } from '../services/SenarioService';
 import { handleGoogleSignIn } from '../services/GoogleLoginService';
 import { getPartners } from '../services/PatnerService'; // Import partner service
-
+import { BiMenuAltLeft } from "react-icons/bi";
 import { Modal } from 'react-responsive-modal';
 
 const CharacterSelectionPage: React.FC = () => {
@@ -187,22 +188,25 @@ console.log("list of all data" ,combinedData )
   };
   return (
     <div className="flex w-full ">
+      <div>
+        <Header/>
+      </div>
       {/* Sidebar Section */}
       {listSelectedCharacter.length>0 && (
  <div className='flex  sm:w-2/5 md:w-1/3 lg:w-1/4 2xl:w-1/5 '>
 
  <button
-   className="sm:hidden fixed top-4 left-4 z-50 text-white bg-gray-800 p-2 rounded-lg"
+   className="md:hidden fixed top-5 left-4 z-50 text-white rounded-lg"
    onClick={toggleSidebar}
  >
-   {isSidebarOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
+   {isSidebarOpen ? <AiOutlineClose size={40} /> : <BiMenuAltLeft size={40} />}
  </button>
- <div className="sm:hidden fixed top-6 left-16 z-50  text-lg font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC]  ">
-   Leela Land
+ <div className="md:hidden fixed top-6 bg-orange-300 left-16 z-50   text-lg font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC]  ">
+ <img src="./image/Group.png" alt="website logo" className="w-8 h-8" />
  </div>
  <div
    className={`fixed sm:static top-20 left-0  h-full bg-[#1E2C3B] transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-     } sm:translate-x-0 w-72 sm:w-full z-40`}
+     } sm:translate-x-0 w-64 sm:w-full z-40`}
     
  >
    {/* Recent Chats Section */}
@@ -210,6 +214,7 @@ console.log("list of all data" ,combinedData )
      <div className='top-20'>
        <div className="flex  h-16 items-center justify-start px-4 border-b border-gray-700">
          <div className="text-xl font-semibold text-stone-500">Recent Chats</div>
+         <div> </div>
        </div>
        <div
          className="flex flex-col overflow-y-auto scroll-smooth"
@@ -321,14 +326,14 @@ console.log("list of all data" ,combinedData )
   style={{ height: 'calc(100vh - 5rem)' }} // 5rem is the equivalent of h-20
 > 
         <div className='flex '>
-          <div className='flex w-full py-2 px-2 justify-center items-center  bg-[#363C43] gap-5'>
+          <div className='flex w-full py-4 px-2 justify-center items-center  bg-[#363C43] gap-5'>
 
-            <img
+            {/* <img
               src="./image/Group.png"
               alt="logo"
               className='w-12'
 
-            />
+            /> */}
             <div className='text-sm sm:text-md font-bold '>
               New App On IOS and Android, Tap To Joy !
             </div>

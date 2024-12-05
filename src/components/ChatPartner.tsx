@@ -7,7 +7,13 @@ import { BsFillSendFill } from "react-icons/bs";
 import { getScenarios } from '../services/SenarioService';
 import { HiLightBulb } from "react-icons/hi";
 import { getChatHistory } from '../services/ChatHistoryService';
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { MdArrowDropDown,MdArrowDropUp  } from "react-icons/md";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { FaUserLarge } from "react-icons/fa6";
+
+interface TextWithQuotesProps {
+  text: string;
+}
 
 const ChatPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,7 +27,7 @@ const ChatPage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true); // Manage sidebar visibility
   const [scenarios, setScenarios] = useState<any[]>([]);
   const [selectedScenario, setSelectedScenario] = useState<any>("General chat")
-
+  const [selectedScenarioPrompt, setSelectedScenarioPrompt] = useState<any>("General talking scenario not mention")
 
   const location = useLocation();
   const { partner } = location.state || {};
@@ -66,7 +72,16 @@ const ChatPage: React.FC = () => {
 
     fetchData();
   }, []);
+  const TextScenario: React.FC<TextWithQuotesProps> = ({ text }) => {
+    // Function to style quoted text as white and the rest as gray
+    const styledText = text.split(/(["'`][^"'"`]*["'`])/g).map((part, index) =>
+      part.match(/(["'`][^"'"`]*["'`])/)
+        ? <span key={index} className="text-white">{part}</span>
+        : <span key={index} className="text-orange-300 italic">{part}</span>
+    );
 
+    return <div>{styledText}</div>;
+  };
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
   
@@ -108,29 +123,57 @@ const ChatPage: React.FC = () => {
     }
   }, [chatHistory]);
 
-  const handleScenarioChange = (newScenario: string) => {
+  const handleScenarioChange = (newScenario: string,newScenarioPromt:string) => {
     setSelectedScenario(newScenario);
+    setSelectedScenarioPrompt(newScenarioPromt)
     // setChatHistory([]); // Clear chat history to start a new chat
   };
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-console.log("chat hisory",chatHistory)
+console.log("chat hisory",selectedScenario)
   return (
     <div className="flex w-full">
-      <button
-        className="sm:hidden fixed top-4 left-4 z-50 text-white bg-[#1E2C3B] p-2 rounded-lg"
-        onClick={toggleSidebar}
-      >
-        {isSidebarOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
-      </button>
-      <div className="sm:hidden fixed top-4 left-16 z-50 text-xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC] p-2 ">
-        Leela Land
+     <div className='fixed top-0  flex w-full bg-[#141b23]  h-20 items-center '>
+        <div className='flex w-[90%]  gap-10 mx-auto py-2 '>
+          <div className='flex  gap-5 justify-center items-center'>
+          <div className="flex cursor-pointer" onClick={() => navigate(-1)}>
+          <IoMdArrowRoundBack  size={28} color="white" />
+          </div>
+          <div className="flex ">
+            {characterName ? (
+              <div className="flex w-full">
+                <h2 className="text-xl font-bold text-nowrap text-white">{characterName}</h2>
+              </div>
+            ) : (
+              <p className="text-red-500 text-center font-semibold">Character missing.</p>
+            )}
+          </div>
+            <div>
+             <button onClick={toggleSidebar}>{isSidebarOpen?<MdArrowDropUp size={40}/>:<MdArrowDropDown size={40}/>}</button> 
+            </div>
+          </div>
+        <div className='flex w-full'></div>
+         
+          <div className="flex  justify-center items-center ">
+
+                <button
+                  onClick={() => navigate("/settings")}
+                  className='flex p-4 bg-slate-700 rounded-full justify-center items-center'
+                >
+                  <div >
+                    <FaUserLarge size={20} />
+                  </div>
+                </button>
+              </div>
+          </div>
+      
+
       </div>
       {/* Sidebar Section */}
       <div
-        className={`fixed sm:static  top-20 z-50 bg-[#1E2C3B] transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } sm:translate-x-0 h-screen overflow-y-auto w-72 sm:w-2/5 md:w-1/3 lg:w-1/4 2xl:w-1/5`}
+        className={`fixed sm:static  top-20 z-50 bg-[#141b23] transition-transform transform ${isSidebarOpen ? 'translate-x-0 w-64 sm:w-2/5 md:w-1/3 lg:w-1/4 2xl:w-1/5' : 'w-0 -translate-x-full'
+          }  h-screen overflow-y-auto `}
       >
         <div className="text-3xl">
           <div className="flex w-full justify-center p-4 items-center">
@@ -160,7 +203,7 @@ console.log("chat hisory",chatHistory)
                   ? "from-orange-500 to-blue-500 "
                   : "from-pink-500 to-blue-500"
                 }  cursor-pointer`}
-                onClick={() =>  handleScenarioChange(scenario.topic)}
+                onClick={() =>  handleScenarioChange(scenario.topic ,scenario.prompt)}
             >
 
 
@@ -187,35 +230,41 @@ console.log("chat hisory",chatHistory)
       </div>
 
       {/* Chat Section */}
-      <div className="flex flex-col w-full sm:w-3/5 md:w-2/3 lg:w-3/4 2xl:w-4/5  h-full">
-        <div className="flex  bg-[#363c43] py-2 gap-2 w-full">
-          <div className="flex cursor-pointer" onClick={() => navigate('/')}>
-            <IoChevronBack size={40} color="white" />
-          </div>
-          <div className="flex w-full justify-center items-center">
-            {characterName && partnerPersonality && partnerContext ? (
-              <div className="flex w-full">
-                <div className="flex w-1/3 sm:w-1/6  justify-center items-center">
-                  <h2 className="text-lg font-semibold text-nowrap text-white">{characterName}</h2>
-                </div>
-                <div className="flex gap-3 w-2/3 sm:w-5/6 justify-center items-center">
+      <div className={` w-full   ${isSidebarOpen? "sm:w-3/5 md:w-2/3 lg:w-3/4 2xl:w-4/5":" w-full" } `}>
+        <div className="flex  bg-[#363c43] py-2 gap-2 w-full justify-center items-center">
+         {characterName && partnerPersonality && partnerContext ? (
+             
+                <div className="flex w-full gap-3 justify-center items-center">
                   <img src="./image/Group.png" alt="chat logo" className='w-12' />
                   <p className="text-sm md:text-md md:text-lg font-medium text-gray-300">
                     Current Topic <span className=" text-sm md:text-md md:text-lg  font-bold">{partnerPersonality}</span>
                   </p>
                 </div>
-              </div>
+             
             ) : (
               <p className="text-red-500 text-center font-semibold">Character not selected</p>
             )}
-          </div>
+        
         </div>
 
         <div
           id="chat-history"
           className="mt-2 pt-8 pb-20 lg:pb-12 px-4 overflow-y-auto scroll-smooth"
           style={{ height: 'calc(100vh - 19rem)' }} // 5rem is the equivalent of h-20
+          
         >
+           <div className='container mx-auto  w-full bg-sky-700 text-md text-white p-4 rounded-lg'>
+            <div className='font-bold'>
+              Scenario :-{selectedScenario}
+            </div>
+            <div>
+              < TextScenario text={selectedScenarioPrompt} />
+            </div>
+            <div className='p-4 '>
+              <img src="./image/Scenarios/scenario1.webp" alt="Scenario-1" className='w-72 rounded-lg' />
+            </div>
+          </div>
+          <div className='container mx-auto'>
           {chatHistory.map((entry, index) => (
             <div
               key={index}
@@ -228,7 +277,7 @@ console.log("chat hisory",chatHistory)
               )}
               <div
                 className={`p-4 rounded-lg shadow-md ${entry.role === 'user' ? 'bg-stone-600 text-white' : 'bg-cyan-700 text-white'
-                  } max-w-2xl`}
+                  } max-w-4xl`}
               >
                 <p>{entry.content}</p>
               </div>
@@ -239,6 +288,8 @@ console.log("chat hisory",chatHistory)
               )}
             </div>
           ))}
+          </div>
+       
         </div>
         <div className='flex'>
           {error && <div className="sm:m-4 p-4 bg-red-100 rounded-md text-red-700">{error}</div>}
@@ -249,8 +300,8 @@ console.log("chat hisory",chatHistory)
       <div>
 
 
-        <form onSubmit={handleSendMessage} className="flex flex-col bg-[#141b23]   w-full sm:w-3/5 md:w-2/3 lg:w-3/4 2xl:w-4/5  fixed bottom-0 right-0  sm:z-50">
-          <div className='flex flex-col justify-between items-center p-2'>
+      <form onSubmit={handleSendMessage} className={`flex flex-col bg-[#141b23]    ${isSidebarOpen? "w-full sm:w-3/5 md:w-2/3 lg:w-3/4 2xl:w-4/5":" w-full" }  fixed bottom-0 right-0  sm:z-50`}>
+          <div className="flex flex-col justify-between items-center p-2">
             <div >
               To make your conversation more personal
             </div>
@@ -259,6 +310,7 @@ console.log("chat hisory",chatHistory)
             </div>
           </div>
           <div className='flex  bg-stone-800 p-4 '>
+            <div className='flex container mx-auto w-full'>
             <div className='px-2 text-orange-300 opacity-70' >
               <HiLightBulb size={50} />
             </div>
@@ -273,6 +325,8 @@ console.log("chat hisory",chatHistory)
             <button type="submit" className="pl-4">
               <BsFillSendFill size={30} color="gray" />
             </button>
+            </div>
+          
           </div>
 
         </form>
