@@ -114,7 +114,7 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
     };
 
     return (
-        <div className="flex w-full flex-col p-6">
+        <div className="flex w-full flex-col p-4 rounded-lg shadow-md shadow-violet-950" style={{ background: 'linear-gradient(180deg, #3e1e46, #1a1b3e)' }}>
             <div className="flex justify-center items-center w-full font-bold text-2xl">
                 Add Partner
             </div>

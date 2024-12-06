@@ -258,7 +258,8 @@ console.log("chat hisory",selectedScenario)
               Scenario :-{selectedScenario}
             </div>
             <div>
-              < TextScenario text={selectedScenarioPrompt} />
+              {/* < TextScenario text={selectedScenarioPrompt} /> */}
+              <p>{selectedScenarioPrompt} </p>
             </div>
             <div className='p-4 '>
               <img src="./image/Scenarios/scenario1.webp" alt="Scenario-1" className='w-72 rounded-lg' />

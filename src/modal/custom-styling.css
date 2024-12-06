@@ -2,25 +2,26 @@
 
 /* Modal with purple background, rounded corners, and max-width */
 .customModalGoogle {
-  background: linear-gradient(to bottom, #a14b72, #ff65a3, #6a5acd);
+  background:transparent;
 
   border-radius: 10px; /* Rounded corners */
   padding: 20px;
   min-width: 300px; /* Maximum width for the modal */
   width: 100%; /* Full width within the max-width constraint */
   margin: auto;
+  box-shadow: none;
  
 }
 
 /* Modal with purple background, rounded corners, and max-width */
 .customModalAddPartner {
   /* background-image: url('./image/addPartner.png'); */
-  background: linear-gradient(180deg, #3e1e46, #1a1b3e); /* Gradient colors */
+  background: transparent; /* Gradient colors */
   background-size: cover; /* Ensures the image covers the entire modal */
   background-repeat: no-repeat; /* Prevents the image from repeating */
   background-position: center; /* Centers the image */
   border-radius: 10px; /* Rounded corners */
-  
+  box-shadow: none;
   min-width: 300px; /* Minimum width for the modal */
   max-width: 1200px; /* Maximum width for the modal */
   width: 100%; /* Full width within the max-width constraint */

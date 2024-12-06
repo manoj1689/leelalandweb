@@ -2,7 +2,7 @@ import React from 'react';
 import { GiCheckMark } from "react-icons/gi";
 function Pricing() {
     return (
-        <div className="flex flex-col items-center justify-center px-6">
+        <div className="flex flex-col items-center justify-center p-4 rounded-lg shadow-md shadow-violet-950" style={{ background: 'linear-gradient(180deg, #3e1e46, #1a1b3e)' }}>
             {/* Card Container */}
             <div className=" p-6 text-center">
                 {/* Title */}

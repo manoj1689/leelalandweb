@@ -50,7 +50,7 @@ const ChatPage: React.FC = () => {
   // Retrieve characterName and scenarioTopic from location state
   const location = useLocation();
   const { characterName, characterImage, characterDescription, characterIdentity, scenarioPrompt, scenarioImage, scenarioTopic, scenarioContext } = location.state || {};
-  console.log("character", location.state.characterDescription)
+ // console.log("character", location.state.characterDescription)
   useEffect(() => {
     const fetchChatHistory = async () => {
       try {
@@ -238,7 +238,7 @@ const ChatPage: React.FC = () => {
               <div className="flex w-full justify-center items-center">
                
                 <div className="flex gap-3 ">
-                  <img src="./image/Group.png" alt="chat logo" className='w-12' />
+                  <img src="./image/Group.png" alt="chat logo" className='w-12 rounded-lg' />
                   <p className="text-sm md:text-md md:text-lg font-medium text-gray-300">
                     Current Topic <span className=" text-sm md:text-md md:text-lg  font-bold">{scenarioTopic}</span>
                   </p>
@@ -258,10 +258,11 @@ const ChatPage: React.FC = () => {
         
           <div className='container mx-auto  w-full bg-sky-700 text-md text-white p-4 rounded-lg'>
             <div className='font-bold'>
-              Scenario :-
+               Scenario :-
             </div>
             <div>
-              < TextScenario text={scenarioPrompt} />
+              {/* < TextScenario text={scenarioPrompt} /> */}
+              <p>{scenarioPrompt} </p>
             </div>
             <div className='p-4 '>
               <img src="./image/Scenarios/scenario1.webp" alt="Scenario-1" className='w-72 rounded-lg' />
@@ -275,7 +276,7 @@ const ChatPage: React.FC = () => {
             >
               {entry.role === 'assistant' && (
                 <div className="flex-shrink-0 mr-4">
-                  <img src={`./image/profiles/${characterImage}`} alt="Assistant" className="w-12 rounded-lg p-2 " />
+                  <img src={`./image/profiles/${characterImage}`} alt="Assistant" className="w-12 rounded-lg  " />
                 </div>
               )}
               <div
@@ -287,7 +288,7 @@ const ChatPage: React.FC = () => {
               </div>
               {entry.role === 'user' && (
                 <div className="flex-shrink-0 ml-2 ">
-                  <img src="./image/chat.png" alt="User" className="w-12 rounded-lg p-2  bg-gradient-to-b from-[#2F9FFC] to-[#C702F5] " />
+                  <img src="./image/Group.png" alt="User" className="w-12 rounded-lg  " />
                 </div>
               )}
             </div>

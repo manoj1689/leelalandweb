@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import closeIcon from '../assets/close-icon.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
@@ -14,6 +15,7 @@ import { MdUpdate } from "react-icons/md";
 import Pricing from '../components/Pricing';
 import { Popover, ArrowContainer } from 'react-tiny-popover'
 import { RxDotsVertical } from "react-icons/rx";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -89,7 +91,7 @@ const Header: React.FC = () => {
       <div className='flex w-full h-20 p-4   justify-end items-center'>
         <div className={`flex ${userId ? "max-md:hidden " : ""} w-1/4 md:w-1/3 lg:w-1/4 2xl:w-1/5 justify-start  items-center gap-2`}>
 
-          <img src="./image/Group.png" alt="website logo" className="w-8 h-8 sm:w-12 sm:h-12 " />
+          <img src="./image/Group.png" alt="website logo" className="w-8 h-8 sm:w-12 sm:h-12 max-md:hidden " />
           <h1 className="max-md:hidden sm:text-xl md:text-3xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#2F9FFC] to-[#C702F5]">
             Leela Land
           </h1>
@@ -236,8 +238,9 @@ const Header: React.FC = () => {
         onClose={() => setShowModal(false)}
         center
         classNames={{ modal: 'customModalGoogle' }}
+        closeIcon={<AiOutlineClose size={25} className='mt-4 mr-4' />}
       >
-        <div className="p-4 text-center">
+        <div className="p-4 text-center bg-gradient-to-b from-[#a14b72] via-[#ff65a3] to-[#6a5acd] rounded-lg ">
           <h2 className="text-3xl font-bold text-white">Leela Land</h2>
           <p className="mb-4 text-gray-700">Sign in to chat with characters!</p>
           <div className='flex justify-center'>
@@ -252,8 +255,9 @@ const Header: React.FC = () => {
 
 
       <Modal open={isModalOpen} onClose={handleCloseModal} center
+      closeIcon={<AiOutlineClose size={25} className='mt-4 mr-4' />}
         classNames={{ modal: 'customModalAddPartner' }} >
-        <div className=' '>
+        <div>
 
 
           <AddPartner closeModal={handleCloseModal} />
@@ -261,6 +265,7 @@ const Header: React.FC = () => {
 
       </Modal>
       <Modal open={isModalPricingOpen} onClose={handleClosePricingModal} center
+      closeIcon={<AiOutlineClose size={25} className='mt-4 mr-4' />}
         classNames={{ modal: 'customModalAddPartner' }} >
         <div className=' '>
 

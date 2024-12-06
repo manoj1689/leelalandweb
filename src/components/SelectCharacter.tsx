@@ -103,83 +103,102 @@ console.log("list of all data" ,combinedData )
     fetchPartners(); // Fetch partners
   }, []);
 
+const handleCardClick = (
+  characterName: string,
+  characterImage: string,
+  characterDescription: string,
+  characterIdentity: any,
+  scenarioTopic: string,
+  scenarioContext: string,
+  scenarioPrompt: string,
+  scenarioImage: string
+) => {
+  const character = {
+    characterName,
+    characterImage,
+    characterIdentity,
+    characterDescription,
+    scenarioTopic,
+    scenarioContext,
+    scenarioPrompt,
+    scenarioImage,
+  };
 
-  const handleCardClick = (
-    characterName: string,
-    characterImage: string,
-    characterDescription: string,
-    characterIdentity: any,
-    scenarioTopic: string,
-    scenarioContext: string,
-    scenarioPrompt: string,
-    scenarioImage: string
-  ) => {
-    // Construct the character object
-    const character = {
-      characterName,
-      characterImage,
-      characterIdentity,
-      characterDescription,
-      scenarioTopic,
-      scenarioContext,
-      scenarioPrompt,
-      scenarioImage,
-    };
-  
-    // Retrieve `user_id` from local storage
-    const userId = localStorage.getItem('user_id'); // Use the correct `user_id` field
-    if (!userId) {
-      setShowModal(true);
-      return;
+  const userId = localStorage.getItem('user_id'); // Retrieve user_id from local storage
+  const token = localStorage.getItem('access_token'); // Retrieve access token
+
+  if (!userId) {
+    setSelectedCharacter(character); // Temporarily store the character
+    setShowModal(true); // Show login modal
+    return;
+  }
+
+  // Retrieve user's selected characters
+  const userCharactersKey = `selected_characters_${userId}`;
+  const selectedCharacters = JSON.parse(localStorage.getItem(userCharactersKey) || '[]');
+
+  // Check if the character already exists
+  const characterExists = selectedCharacters.some(
+    (selectedCharacter: any) =>
+      selectedCharacter.characterName === character.characterName &&
+      selectedCharacter.characterDescription === character.characterDescription &&
+      selectedCharacter.scenarioTopic === character.scenarioTopic
+  );
+
+  if (token) {
+    if (!characterExists) {
+      selectedCharacters.push(character);
+      localStorage.setItem(userCharactersKey, JSON.stringify(selectedCharacters)); // Save updated characters
     }
-  
-    // Retrieve selected characters for the specific user
-    const userCharactersKey = `selected_characters_${userId}`;
-    const selectedCharacters = JSON.parse(localStorage.getItem(userCharactersKey) || '[]');
-  
-    // Check if the character already exists
-    const characterExists = selectedCharacters.some(
-      (selectedCharacter: any) =>
-        selectedCharacter.characterName === character.characterName &&
-       
-        selectedCharacter.characterDescription === character.characterDescription &&
-        selectedCharacter.scenarioTopic === character.scenarioTopic 
-     
-    );
-   console.log("character exists",characterExists)
-    const token = localStorage.getItem('access_token');
-  
-    if (token) {
-      if (!characterExists) {
-        // Add the character to the user's selected characters
-        selectedCharacters.push(character);
-        localStorage.setItem(userCharactersKey, JSON.stringify(selectedCharacters));
-        setSelectedCharacter(character);
+    navigate('/chat', { state: character }); // Navigate to chat page with character
+  } else {
+    setSelectedCharacter(character); // Temporarily store the character
+    setShowModal(true); // Show login modal
+  }
+};
+
+const handleGoogleLogin = async (response: any) => {
+  if (response.credential) {
+    try {
+      await handleGoogleSignIn(response.credential);
+
+      const decodedToken = jwtDecode<{ sub: string; picture: string }>(response.credential);
+      const userId = decodedToken.sub; // Extract user_id
+      localStorage.setItem('access_token', response.credential);
+      localStorage.setItem('user', JSON.stringify(decodedToken));
+      localStorage.setItem('user_id', userId);
+
+      const userCharactersKey = `selected_characters_${userId}`;
+      const selectedCharacters = JSON.parse(localStorage.getItem(userCharactersKey) || '[]');
+
+      if (selectedCharacter) {
+        // Check if the selected character exists
+        const characterExists = selectedCharacters.some(
+          (selectedCharacterInList: any) =>
+            selectedCharacterInList.characterName === selectedCharacter.characterName &&
+            selectedCharacterInList.characterDescription === selectedCharacter.characterDescription &&
+            selectedCharacterInList.scenarioTopic === selectedCharacter.scenarioTopic
+        );
+
+        if (!characterExists) {
+          selectedCharacters.push(selectedCharacter); // Add character if not exists
+          localStorage.setItem(userCharactersKey, JSON.stringify(selectedCharacters)); // Save updated characters
+        }
+
+        navigate('/chat', { state: selectedCharacter }); // Navigate to chat with selected character
       }
-      // Navigate to the chat page with the selected character's data
-      navigate('/chat', { state: character });
-    } else {
-      // Show the login modal if the token is not present
-      setShowModal(true);
+    } catch (error) {
+      console.error("Error during Google login:", error);
+    }
+  }
+};
+
+  const toggleSidebar = () => {
+    if (listSelectedCharacter.length > 0 ||partners.length>0) {
+      setIsSidebarOpen(!isSidebarOpen);
     }
   };
   
-  const handleGoogleLogin = async (response: any) => {
-    if (response.credential) {
-      try {
-        await handleGoogleSignIn(response.credential);
-        const decodedToken = jwtDecode<{ name: string; picture: string }>(response.credential);
-        setShowModal(false);
-        localStorage.setItem('access_token', response.credential);
-        localStorage.setItem('user', JSON.stringify(decodedToken));
-        navigate('/');
-      } catch (error) {
-        console.error("Error during Google login:", error);
-      }
-    }
-  };
-
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const handlePartnerClick = (partner: any) => {
     console.log('Partner clicked:', partner);
@@ -192,21 +211,23 @@ console.log("list of all data" ,combinedData )
         <Header/>
       </div>
       {/* Sidebar Section */}
-      {listSelectedCharacter.length>0 && (
- <div className='flex  sm:w-2/5 md:w-1/3 lg:w-1/4 2xl:w-1/5 '>
-
+  
  <button
    className="md:hidden fixed top-5 left-4 z-50 text-white rounded-lg"
    onClick={toggleSidebar}
  >
    {isSidebarOpen ? <AiOutlineClose size={40} /> : <BiMenuAltLeft size={40} />}
  </button>
- <div className="md:hidden fixed top-6 bg-orange-300 left-16 z-50   text-lg font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC]  ">
+ <div className="md:hidden fixed top-6  left-16 z-50   text-lg font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#0096FF] to-[#E407EC]  ">
  <img src="./image/Group.png" alt="website logo" className="w-8 h-8" />
- </div>
+ </div> 
+
+ <div className={`flex ${listSelectedCharacter.length>0 ||partners.length>0 ?"block":"hidden" }  sm:w-2/5 md:w-1/3 lg:w-1/4 2xl:w-1/5 `}>
+
+
  <div
-   className={`fixed sm:static top-20 left-0  h-full bg-[#1E2C3B] transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-     } sm:translate-x-0 w-64 sm:w-full z-40`}
+   className={`fixed sm:static top-20 left-0  h-full bg-[#1E2C3B] transition-transform transform ${isSidebarOpen ? 'translate-x-0 w-0' : '-translate-x-full'
+     } sm:translate-x-0 w-64 sm:w-full z-40 `}
     
  >
    {/* Recent Chats Section */}
@@ -266,7 +287,7 @@ console.log("list of all data" ,combinedData )
    )}
 
    {/* Partners Section */}
-   {partners.length > 0 && (
+   {partners.length > 0 &&(
      <div>
        <div className="flex h-16 items-center justify-start px-4 border-b border-gray-700 mt-4">
          <div className="text-xl font-semibold text-stone-500">Partners</div>
@@ -309,12 +330,12 @@ console.log("list of all data" ,combinedData )
  </div>
  {isSidebarOpen && (
    <div
-     className="fixed inset-0 bg-black bg-opacity-50 sm:hidden z-30"
+     className="fixed top-20 inset-0 bg-black bg-opacity-50 sm:hidden z-30"
      onClick={toggleSidebar}
    ></div>
  )}
 </div>
-      )}
+      
      
 
      <div
@@ -437,8 +458,9 @@ console.log("list of all data" ,combinedData )
         onClose={() => setShowModal(false)}
         center
         classNames={{ modal: 'customModalGoogle' }}
+        closeIcon={<AiOutlineClose size={25} className='mt-4 mr-4' />}
       >
-        <div className="p-4 text-center">
+        <div className="p-4 text-center bg-gradient-to-b from-[#a14b72] via-[#ff65a3] to-[#6a5acd] rounded-lg ">
           <h2 className="text-3xl font-bold text-white">Leela Land</h2>
           <p className="mb-4 text-gray-700">Sign in to chat with characters!</p>
           <div className='flex justify-center'>
@@ -450,6 +472,7 @@ console.log("list of all data" ,combinedData )
 
         </div>
       </Modal>
+      
     </div>
   );
 };

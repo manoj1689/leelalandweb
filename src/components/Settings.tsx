@@ -86,7 +86,7 @@ const Settings: React.FC = () => {
       <div className='fixed top-0  flex w-full bg-[#141b23]  h-20 items-center '>
         <div className='flex w-[90%] gap-10 mx-auto  '>
 
-          <div className='flex gap-5 justify-center items-center '>
+          <div className='flex sm:gap-5 justify-center items-center '>
             <div className="flex cursor-pointer" onClick={() => navigate(-1)}>
             <IoMdArrowRoundBack  size={28} color="white" />
             </div>
@@ -211,7 +211,7 @@ const Settings: React.FC = () => {
       <div className="flex-1 p-4 overflow-y-auto " style={{ height: 'calc(100vh - 40px)' }}  >
         {/* My Profile Heading */}
 
-        <div className="w-3/4 mx-auto space-y-4">
+        <div className="sm:w-3/4 mx-auto space-y-4">
           {/* Manage My Account */}
           <div
             className="flex py-4 justify-between border-b border-gray-400 cursor-pointer"
