@@ -223,7 +223,7 @@ const SearchCharacterPage: React.FC = () => {
             <button
               key={index}
               onClick={() => handleFilterChange(title === "All" ? '' : title)}
-              className={`px-4 py-2 rounded ${filterOption === title ? 'bg-gray-600' : (title === "All" ? 'bg-gradient-to-b from-[#342F66] via-[#4b2b61] to-[#4A0F58]' : 'bg-stone-900')} text-white`}
+              className={`px-4 py-2 hover:bg-gradient-to-b from-[#342F66] via-[#4b2b61] to-[#4A0F58] rounded ${filterOption === title ? 'bg-gradient-to-b from-[#342F66] via-[#4b2b61] to-[#4A0F58]' : (title === "All" ? 'bg-[#6f3f7a]' : 'bg-stone-900')} text-white`}
             >
               {title}
             </button>
@@ -250,7 +250,7 @@ const SearchCharacterPage: React.FC = () => {
 
                 {/* Content Section */}
                 <div
-                  className="relative flex flex-col sm:flex-row p-4 cursor-pointer"
+                  className="relative flex flex-col sm:flex-row p-4 items-center cursor-pointer"
                   onClick={() =>
                     handleCardClick(
                       ScenarioChar.character.name,
@@ -287,8 +287,8 @@ const SearchCharacterPage: React.FC = () => {
                   </div>
 
                   {/* Right Section */}
-                  <div className="w-full  sm:w-1/4">
-                    <div className="flex sm:flex-col gap-4 justify-between items-center py-2">
+                  <div className="w-full  sm:w-1/4 ">
+                    <div className="flex gap-4 justify-around items-center py-2">
                       <div className="flex w-full gap-2 justify-center  ">
                         <span><IoMdChatbubbles size={20} color='gray' /></span>
                         <span className="text-xs text-gray-400">
@@ -296,7 +296,7 @@ const SearchCharacterPage: React.FC = () => {
                         </span>
                       </div>
                       <div className="flex w-full justify-center">
-                        <button className="flex items-center justify-center rounded-full font-bold text-xs text-white px-8 py-2 bg-gradient-to-b from-[#C702F5] to-[#2F9FFC]">
+                        <button className="flex items-center justify-center rounded-full font-bold text-xs text-white px-8 py-4 bg-gradient-to-b from-[#C702F5] to-[#2F9FFC]">
                           Chat Now
                         </button>
                       </div>

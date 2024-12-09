@@ -136,7 +136,7 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                             keyBoardControl={true}
                             customTransition="all .5"
                             transitionDuration={500}
-                            removeArrowOnDeviceType={["tablet", "mobile"]}
+                            // removeArrowOnDeviceType={["tablet", "mobile"]}
                         >
                             {images.map((img, index) => (
                                 <div
@@ -164,8 +164,8 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                                     id="name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className={`w-full p-4 rounded-xl bg-zinc-700 text-gray-400 placeholder:font-medium focus:outline-none 
-                                    ${name === "" ? "placeholder:text-zinc-600" : "placeholder:text-transparent"}`}
+                                    className={`w-full p-4 rounded-xl bg-[#3a2477] text-zinc-400 font-medium placeholder:font-medium focus:outline-none 
+                                    ${name === "" ? "placeholder:text-zinc-400 " : "placeholder:text-transparent"}`}
                                     placeholder="Enter Name"
                                     autoComplete="off" 
                                 />
@@ -176,7 +176,7 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                                     id="preference"
                                     value={preference}
                                     onChange={(e) => setPreference(e.target.value)}
-                                    className="w-full p-4 rounded-xl bg-zinc-700 placeholder:font-medium text-gray-400 focus:outline-none"
+                                    className="w-full p-4 rounded-xl bg-[#3a2477] font-medium placeholder:font-medium text-zinc-400 focus:outline-none"
                                 >
                                     <option value="">Select a preference</option>
                                     <option value="traveling">Traveling</option>
@@ -205,7 +205,7 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                             <button
                                 key={item}
                                 onClick={() => setPersonality(item)}
-                                className={`w-full text-gray-400 py-2 font-medium  border-2 rounded-lg text-center ${personality === item ? "border-zinc-700 bg-slate-900 text-white" : "border-zinc-600"}`}
+                                className={`w-full text-gray-400 py-2 font-medium  border-2 rounded-lg hover:border-[#bf61d4] text-center ${personality === item ? "border-zinc-700 bg-gradient-to-b from-[#2F9FFC] to-[#C702F5] text-white" : "border-zinc-600"}`}
                             >
                                 {item}
                             </button>
@@ -234,10 +234,10 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                     <div>
                         <h2 className="text-xl font-semibold my-4">*Age Preferences</h2>
                         <div className="flex w-full gap-5 items-center">
-                            <div className=" text-gray-400 p-2 border-2 border-zinc-600 rounded-lg">
+                            <div className="flex text-gray-400 w-1/6  p-2 border-2 border-zinc-600  rounded-lg justify-center items-center">
                                 <span> {age}+</span>
                             </div>
-                            <div className="flex w-full">
+                            <div className="flex w-5/6">
                                 <Slider
                                     min={19}
                                     max={100}
@@ -264,7 +264,7 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                             id="description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full p-4 rounded-xl bg-zinc-700  text-gray-400"
+                            className="w-full p-4 rounded-xl bg-[#3a2477] font-medium placeholder:font-medium text-zinc-400 "
                             placeholder="Write a description..."
                             rows={4}
                         />

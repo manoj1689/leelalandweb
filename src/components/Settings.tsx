@@ -15,7 +15,7 @@ const Settings: React.FC = () => {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const [listSelectedCharacter, setListSelectedCharacter] = useState<any[]>([]);
   const [editMode, setEditMode] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false); // Manage sidebar visibility
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true); // Manage sidebar visibility
 
   const accessToken = localStorage.getItem('access_token');
   const token = localStorage.getItem('user_token');
@@ -217,8 +217,8 @@ const Settings: React.FC = () => {
             className="flex py-4 justify-between border-b border-gray-400 cursor-pointer"
             onClick={() => navigate('/manage-account')}
           >
-            <span className="text-lg">Manage My Account</span>
-            <button className="flex items-center px-4 py-2 rounded-xl border-2 border-pink-600 text-white">
+            <span className="text-lg hover:font-bold">Manage My Account</span>
+            <button className="flex items-center px-4 py-2 rounded-xl border-2  border-pink-600 hover:border-pink-800 text-white hover:scale-110 hover:font-semibold">
               Edit Account
             </button>
           </div>
@@ -228,7 +228,7 @@ const Settings: React.FC = () => {
             className="flex py-4 justify-between border-b border-gray-400 cursor-pointer"
             onClick={() => navigate('/about-us')}
           >
-            <span className="text-lg">About Us</span>
+            <span className="text-lg hover:font-bold">About Us</span>
             <IoIosArrowForward size={25} />
           </div>
 
@@ -237,7 +237,7 @@ const Settings: React.FC = () => {
             className="flex py-4 justify-between border-b border-gray-400 cursor-pointer"
             onClick={() => navigate('/privacy-policy')}
           >
-            <span className="text-lg">Privacy Policy</span>
+            <span className="text-lg hover:font-bold">Privacy Policy</span>
             <IoIosArrowForward size={25} />
           </div>
 
@@ -246,7 +246,7 @@ const Settings: React.FC = () => {
             className="flex py-4 justify-between border-b border-gray-400 cursor-pointer"
             onClick={() => navigate('/restore-purchase')}
           >
-            <span className="text-lg">Restore Purchase</span>
+            <span className="text-lg hover:font-bold">Restore Purchase</span>
             <button className="flex items-center px-4 py-2 rounded-xl bg-gradient-to-b from-pink-500 to-blue-500 hover:from-blue-500 hover:to-pink-500 text-white">
               Upgrade
             </button>
@@ -257,7 +257,7 @@ const Settings: React.FC = () => {
             className="flex py-4 justify-between border-b border-gray-400 cursor-pointer"
             onClick={() => navigate('/terms-of-use')}
           >
-            <span className="text-lg">Terms of Use</span>
+            <span className="text-lg hover:font-bold">Terms of Use</span>
             <IoIosArrowForward size={25} />
           </div>
 
@@ -265,7 +265,7 @@ const Settings: React.FC = () => {
           <div className="mt-8 text-center pb-20">
             <button
               onClick={handleLogout}
-              className="text-lg w-1/3 text-white py-4  rounded-xl border-2 border-pink-600 hover:border-pink-800 transition"
+              className="text-lg w-1/3 text-white py-4  rounded-xl border-2 border-pink-600 hover:border-pink-800 transition hover:scale-110 hover:font-semibold"
             >
               Logout
             </button>
