@@ -37,7 +37,7 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
     const [age, setAge] = useState(19); // Default age set to 19
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
-
+    const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
     const items = [
         "Teen", "Housewife", "Worker", "Bhabhi Ji", "Fans",
         "School Girl", "Teacher", "Doctor", "Nurse", "Lawyer",
@@ -69,6 +69,19 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
     ];
 
     const handleSubmit = async () => {
+        // Validate Fields
+        const errors: Record<string, string> = {};
+        if (!name.trim()) errors.name = "Name is required.";
+        if (!preference) errors.preference = "Preference is required.";
+        if (!personality) errors.personality = "Personality is required.";
+        if (!image) errors.image = "You must select an avatar.";
+        if (!description.trim()) errors.description = "Description is required.";
+
+        setValidationErrors(errors);
+
+        // If errors exist, do not proceed
+        if (Object.keys(errors).length > 0) return;
+
         const partnerData: PartnerRequest = {
             name,
             preference,
@@ -81,19 +94,13 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
         try {
             const response = await addPartner(partnerData);
             console.log("Partner added successfully:", response);
-            // alert("Partner added successfully!");
 
-            // Reset all fields
             setName("");
             setPreference("");
             setPersonality("");
             setAge(19);
             setDescription("");
-
-            // Close the modal
             closeModal();
-
-            // Reload the page
             window.location.reload();
         } catch (error: any) {
             console.error("Error adding partner:", error.message);
@@ -136,7 +143,7 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                             keyBoardControl={true}
                             customTransition="all .5"
                             transitionDuration={500}
-                            // removeArrowOnDeviceType={["tablet", "mobile"]}
+                        // removeArrowOnDeviceType={["tablet", "mobile"]}
                         >
                             {images.map((img, index) => (
                                 <div
@@ -153,12 +160,13 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                                 </div>
                             ))}
                         </Carousel>
+                        {validationErrors.image && <p className="text-red-500 text-sm">{validationErrors.image}</p>}
                     </div>
 
                     <div>
                         <h2 className="text-xl font-semibold my-4">*Enter Details</h2>
                         <div className="flex gap-5">
-                            <div className="flex w-full">
+                            <div className="flex flex-col gap-2 w-full">
                                 <input
                                     type="text"
                                     id="name"
@@ -167,11 +175,15 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                                     className={`w-full p-4 rounded-xl bg-[#3a2477] text-zinc-400 font-medium placeholder:font-medium focus:outline-none 
                                     ${name === "" ? "placeholder:text-zinc-400 " : "placeholder:text-transparent"}`}
                                     placeholder="Enter Name"
-                                    autoComplete="off" 
+                                    autoComplete="off"
                                 />
-
+                                <div>
+                                {validationErrors.name && <p className="text-red-500 text-sm">{validationErrors.name}</p>}
+                                </div>
+                                
                             </div>
-                            <div className="flex w-full">
+                          
+                            <div className="flex flex-col gap-2 w-full">
                                 <select
                                     id="preference"
                                     value={preference}
@@ -190,8 +202,11 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                                     <option value="adventure">Adventure</option>
                                     <option value="gaming">Gaming</option>
                                 </select>
-
+                               <div>
+                               {validationErrors.preference && <p className="text-red-500 text-sm">{validationErrors.preference}</p>}
+                                </div> 
                             </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -210,7 +225,9 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                                 {item}
                             </button>
                         ))}
+
                     </div>
+
                     <div className="flex w-full justify-end">
                         <button
                             onClick={handleToggle}
@@ -229,7 +246,9 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                                 )}
                             </span>
                         </button>
+
                     </div>
+                    {validationErrors.personality && <p className="text-red-500 text-sm">{validationErrors.personality}</p>}
                     {/* Age Selection */}
                     <div>
                         <h2 className="text-xl font-semibold my-4">*Age Preferences</h2>
@@ -256,7 +275,6 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                             </div>
                         </div>
                     </div>
-
                     {/* Description */}
                     <div>
                         <h2 className="text-xl font-semibold my-4">*Define his/her</h2>
@@ -269,7 +287,9 @@ const ModalPage: React.FC<ModalPageProps> = ({ closeModal }) => {
                             rows={4}
                         />
                     </div>
+                    {validationErrors.description && <p className="text-red-500 text-sm">{validationErrors.description}</p>}
                 </div>
+
             </div>
 
             {/* Submit Button */}

@@ -7,6 +7,7 @@ import { MdDelete } from "react-icons/md";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaUserLarge } from "react-icons/fa6";
+import { MdEdit } from "react-icons/md";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
@@ -218,8 +219,8 @@ const Settings: React.FC = () => {
             onClick={() => navigate('/manage-account')}
           >
             <span className="text-lg hover:font-bold">Manage My Account</span>
-            <button className="flex items-center px-4 py-2 rounded-xl border-2  border-pink-600 hover:border-pink-800 text-white hover:scale-110 hover:font-semibold">
-              Edit Account
+            <button className="flex items-center px-4 py-2 rounded-xl border-2  gap-3 border-violet-700 hover:border-white text-white hover:scale-110 hover:font-semibold">
+             <span className='text-md'>Edit</span> <span><MdEdit size={20}/></span>
             </button>
           </div>
 
@@ -265,7 +266,7 @@ const Settings: React.FC = () => {
           <div className="mt-8 text-center pb-20">
             <button
               onClick={handleLogout}
-              className="text-lg w-1/3 text-white py-4  rounded-xl border-2 border-pink-600 hover:border-pink-800 transition hover:scale-110 hover:font-semibold"
+              className="text-lg w-5/6 sm:w-1/3 text-white py-4  rounded-xl border-2  border-violet-700 hover:border-white transition hover:scale-110 hover:font-semibold"
             >
               Logout
             </button>

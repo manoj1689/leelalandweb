@@ -207,8 +207,8 @@ const SearchCharacterPage: React.FC = () => {
 
       <div className='w-full overflow-y-auto' style={{ height: 'calc(100vh - 5rem)' }}>
         <div className='flex'>
-          <div className='flex w-full py-2 px-2 justify-center items-center bg-[#363C43] gap-5'>
-            <img src="./image/Group.png" alt="logo" className='w-12' />
+          <div className='flex w-full h-16 px-2 justify-center items-center bg-[#363C43] gap-5'>
+            <img src="./image/Group.png" alt="logo" className='w-8' />
             <div className='text-sm sm:text-md font-bold'>
               New App On IOS and Android, Tap To Joy !
             </div>
@@ -218,7 +218,7 @@ const SearchCharacterPage: React.FC = () => {
 
 
         {/* Filter Options */}
-        <div className="container mx-auto flex flex-wrap justify-center gap-4 my-4 p-4">
+        <div className="container mx-auto flex flex-wrap max-h-60 overflow-y-auto justify-center gap-4 my-4 p-4">
           {titles.map((title, index) => (
             <button
               key={index}
@@ -288,7 +288,7 @@ const SearchCharacterPage: React.FC = () => {
 
                   {/* Right Section */}
                   <div className="w-full  sm:w-1/4 ">
-                    <div className="flex gap-4 justify-around items-center py-2">
+                    <div className="flex sm:flex-col lg:flex-row gap-4 justify-around items-center py-2">
                       <div className="flex w-full gap-2 justify-center  ">
                         <span><IoMdChatbubbles size={20} color='gray' /></span>
                         <span className="text-xs text-gray-400">
@@ -296,7 +296,7 @@ const SearchCharacterPage: React.FC = () => {
                         </span>
                       </div>
                       <div className="flex w-full justify-center">
-                        <button className="flex items-center justify-center rounded-full font-bold text-xs text-white px-8 py-4 bg-gradient-to-b from-[#C702F5] to-[#2F9FFC]">
+                        <button className="flex items-center justify-center rounded-full font-bold text-xs text-white px-4 py-2 bg-gradient-to-b from-[#C702F5] to-[#2F9FFC]">
                           Chat Now
                         </button>
                       </div>

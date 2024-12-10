@@ -175,20 +175,20 @@ const Header: React.FC = () => {
                       position={position}
                       childRect={childRect}
                       popoverRect={popoverRect}
-                      arrowColor={'#2B2B2B'}
+                      arrowColor={'#1a2633'}
                       arrowSize={10}
                       className='popover-arrow-container'
                       arrowClassName='popover-arrow'
                     >
                       <div
-                        style={{ backgroundColor: '#2B2B2B', borderRadius: "5px" }}
+                        style={{ backgroundColor: '#1a2633', borderRadius: "5px" }}
                         onClick={() => setIsPopoverOpen(!isPopoverOpen)}
                       >
-                        <div className="flex flex-col p-4 gap-3">
+                        <div className="flex flex-col p-4 bg-[] ">
                           <div className="flex gap-5 items-center">
                             <div className=''>
-                              <button onClick={handleOpenAddPartner} className="flex gap-3 text-gray-300 bg-transparent p-2 items-center rounded-xl  hover:bg-violet-600 border-2 border-violet-800 transition">
-                                <span className="w-5/6">Add Partner</span> <span > <IoIosAdd size={25} /></span>
+                              <button onClick={handleOpenAddPartner} className="flex gap-3 text-gray-300 bg-transparent p-2 items-center rounded-xl  hover:bg-violet-600  transition">
+                                <span className="w-5/6">Add Partner</span> <span >  <FaArrowRight size={20} /></span>
                               </button>
                             </div>
 
@@ -196,13 +196,13 @@ const Header: React.FC = () => {
                           </div>
                           <button
                             onClick={handleOpenPricingModal}
-                            className="flex text-gray-300 gap-3 p-2  items-center rounded-xl  transition bg-gradient-to-b from-[#E407EC] to-[#0096FF]"
+                            className="flex gap-3 p-2  items-center rounded-xl  transition text-[#a277da]"
                           > <span className="">Upgrade Pro</span>
                             <span className=''><MdUpdate size={25} /></span>
 
 
                           </button>
-                          <div className="flex gap-5 text-gray-300 bg-transparent p-2 items-center rounded-xl  hover:bg-violet-600 border-2 border-violet-800 transition" onClick={()=>navigate("/settings")}>
+                          <div className="flex gap-5 text-gray-300 bg-transparent p-2 items-center rounded-xl  hover:bg-violet-600 transition" onClick={()=>navigate("/settings")}>
                             <div className="w-5/6">My Profile</div>
                             <div className="w-1/6 flex justify-end">
                               <FaArrowRight size={20} />

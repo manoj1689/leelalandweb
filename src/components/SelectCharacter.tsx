@@ -308,7 +308,7 @@ const handleGoogleLogin = async (response: any) => {
                <img
                  src={`./AvatarsImage/${partner.image}`}
                  alt={partner.image}
-                 className="w-full  rounded-xl"
+                 className="w-full h-full rounded-full"
                />
 
              </div>
@@ -346,21 +346,15 @@ const handleGoogleLogin = async (response: any) => {
   }`}
   style={{ height: 'calc(100vh - 5rem)' }} // 5rem is the equivalent of h-20
 > 
-        <div className='flex '>
-          <div className='flex w-full py-4 px-2 justify-center items-center  bg-[#363C43] gap-5'>
+      
+          <div className='flex w-full px-2 justify-center items-center text-sm sm:text-md font-bold  bg-[#363C43] h-16'>
 
-            {/* <img
-              src="./image/Group.png"
-              alt="logo"
-              className='w-12'
-
-            /> */}
-            <div className='text-sm sm:text-md font-bold '>
+          
               New App On IOS and Android, Tap To Joy !
-            </div>
+          
           </div>
 
-        </div>
+       
 
         <div
           className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 m-4 "
