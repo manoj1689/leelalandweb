@@ -129,7 +129,7 @@ const ChatPage: React.FC = () => {
       setMessage('');
       setError('');
     } catch (error: any) {
-      setError(error.message || 'Failed to send message');
+      setError(error.message || 'Failed to send msg');
     }
   };
   console.log("chat history", chatHistory)
