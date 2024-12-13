@@ -45,6 +45,7 @@ const CharacterSelectionPage: React.FC = () => {
                 difficulty: scenario.difficulty,
                 context: scenario.context,
                 prompt: scenario.prompt,
+                image:scenario.image,
                 character: {
                   id: character.id,
                   name: character.name,
@@ -199,7 +200,6 @@ const handleGoogleLogin = async (response: any) => {
     }
   };
   
-
   const handlePartnerClick = (partner: any) => {
     console.log('Partner clicked:', partner);
     // Add functionality for partner click, if needed
@@ -239,7 +239,7 @@ const handleGoogleLogin = async (response: any) => {
        </div>
        <div
          className="flex flex-col overflow-y-auto scroll-smooth"
-         style={{ height: 'calc(50vh - 5rem)' }}
+         style={partners.length>0?{ height: 'calc(50vh - 5rem)' }:{ height: 'calc(96vh - 7rem)' }}
        
        >
          {listSelectedCharacter.map((character, index) => (
@@ -303,14 +303,17 @@ const handleGoogleLogin = async (response: any) => {
                }`}
              onClick={() => handlePartnerClick(partner)}
            >
-             <div className="flex w-1/5 justify-center items-center">
-
+             <div className="flex sm:w-1/5 justify-center items-center">
+               <div className=''>
                <img
                  src={`./AvatarsImage/${partner.image}`}
                  alt={partner.image}
-                 className="w-full h-full rounded-full"
+                 className="w-16 h-16 rounded-full  object-cover" 
                />
 
+                
+                </div> 
+             
              </div>
              <div className="flex flex-col w-4/5 items-start">
                <div className="px-4">
@@ -366,15 +369,16 @@ const handleGoogleLogin = async (response: any) => {
       <div key={index} className="relative flex flex-col rounded-lg overflow-hidden">
         {/* Background Gradient Image */}
         <div className="absolute inset-0">
-          <img
+        <img src={`./image/Scenarios/${ScenarioChar.image}.webp`} alt="Scenario-image" className='w-full h-40 object-cover opacity-70 ' />
+          {/* <img
             src="./image/backprint.jpg"
             alt="background"
             className="w-full h-full object-cover opacity-40"
-          />
+          /> */}
         </div>
-
+        
         {/* Blackish Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#342F66] via-[#4b2b61] to-[#4A0F58] mt-16"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#342F66] via-[#4b2b61] to-[#4A0F58] mt-20"></div>
 
         {/* Content Section */}
         <div
@@ -388,7 +392,7 @@ const handleGoogleLogin = async (response: any) => {
               ScenarioChar.topic,
               ScenarioChar.context,
               ScenarioChar.prompt,
-              ScenarioChar.character.imageName // Assuming scenario.image was incorrect and meant character.imageName
+              ScenarioChar.image // Assuming scenario.image is available here.
             )
           }
         >
@@ -403,9 +407,9 @@ const handleGoogleLogin = async (response: any) => {
                 />
               </div>
             </div>
-            <div className="md:w-3/4 text-white mt-4">
-              <span className="text-lg font-semibold">{ScenarioChar.topic}</span>
-              <p className="text-[#a2c5ff] font-sans font-medium italic mt-4 md:text-xs">
+            <div className="md:w-3/4 text-white mt-8">
+              <span className="text-lg font-semibold line-clamp-1">{ScenarioChar.topic}</span>
+              <p className="text-[#a2c5ff] font-sans font-medium italic mt-2 md:text-md">
                 {ScenarioChar.character.name}
               </p>
             </div>
@@ -421,7 +425,7 @@ const handleGoogleLogin = async (response: any) => {
                 </div>
               </div>
             </div>
-            <div className="flex py-2 justify-between">
+            <div className="flex  justify-between">
               <div className="flex gap-2">
                 <span>
                   <IoMdChatbubbles size={20} color="gray" />

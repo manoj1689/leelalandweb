@@ -46,6 +46,7 @@ const SearchCharacterPage: React.FC = () => {
               difficulty: scenario.difficulty,
               context: scenario.context,
               prompt: scenario.prompt,
+              image:scenario.image,
               character: {
                 id: character.id,
                 name: character.name,
@@ -260,7 +261,7 @@ const SearchCharacterPage: React.FC = () => {
                       ScenarioChar.topic,
                       ScenarioChar.context,
                       ScenarioChar.prompt,
-                      ScenarioChar.character.imageName // Assuming scenario.image was incorrect and meant character.imageName
+                      ScenarioChar.image // Assuming scenario.image was incorrect and meant character.imageName
                     )
                   }
                 >

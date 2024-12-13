@@ -52,6 +52,7 @@ export interface ChatResponse {
 export type Scenario = {
   id: number;
   topic: string;
+  image: string;
   category: string;
   difficulty: string;
   context: string;
@@ -72,6 +73,7 @@ export type CombinedData = {
   scenarioId: number;
   topic: string;
   category: string;
+  image:string;
   difficulty: string;
   context: string;
   prompt: string;

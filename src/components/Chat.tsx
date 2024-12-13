@@ -30,6 +30,7 @@ const ChatPage: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false); // Manage sidebar visibility
   const [loading, setLoading] = useState<boolean>(false)
+  const [aiResponse,setAiResponse]=useState<{ role: string; content: string }[]>([]);
   const accessToken = localStorage.getItem('access_token');
   useEffect(() => {
     if (accessToken) {
@@ -67,37 +68,52 @@ const ChatPage: React.FC = () => {
     fetchChatHistory();
   }, [characterName]);
 
+  useEffect(() => {
+    if (chatHistory.length > 0) {
+      // Set aiResponse to the last message in chatHistory
+      setAiResponse([chatHistory[chatHistory.length - 1]]);
+    }
+  }, [chatHistory]);
+
+ console.log("Ai response",aiResponse)
   const TextScenario: React.FC<TextWithQuotesProps> = ({ text }) => {
-    // Function to style quoted text as white and the rest as gray
-    const styledText = text.split(/(["'`][^"'"`]*["'`])/g).map((part, index) =>
-      part.match(/(["'`][^"'"`]*["'`])/)
-        ? <span key={index} className="text-white">{part}</span>
-        : <span key={index} className="text-orange-300 italic">{part}</span>
-    );
-
-    return <div>{styledText}</div>;
-  };
-
-  const TextChat: React.FC<TextWithQuotesProps> = ({ text }) => {
-    // Function to style quoted text as white and the rest as gray
-    // Detects text wrapped in * and makes it italic
-    const styledText = text.split(/(\*[^*]+\*)/g).map((part, index) => {
-      // Check if the part is wrapped in asterisks, and apply italic style
-      if (part.match(/\*[^*]+\*/)) {
-        return <span key={index} className="italic text-orange-300">{part.replace(/\*/g, '')}</span>; // Remove asterisks and apply italic
-      } else if (part.match(/(["'`][^"'"`]*["'`])/)) {
-        // If it's quoted text, apply white color
-        return <span key={index} className="text-white ">{part}</span>;
+    // Function to style text based on specific patterns
+    const styledText = text.split(/(\*\*[^*]+\*\*|#.*?#|\*[^*]+\*)/g).map((part, index) => {
+      if (part.match(/^\*\*[^*]+\*\*$/)) {
+        // Match expressions (e.g., **expression**) and style them white
+        return (
+          <span key={index} className="text-slate-400 font-semibold  ">
+            *{part.replace(/\*\*/g, '')}*
+          </span>
+        );
+      } else if (part.match(/^#.*?#$/)) {
+        // Match bold text (e.g., # bold #) and style it bold
+        return (
+          <span key={index} className="font-medium">
+            {part.replace(/#/g, '')}
+          </span>
+        );
+      } else if (part.match(/^\*[^*]+\*$/)) {
+        // Match environmental text (e.g., *description*) and style it gray + cursive
+        return (
+          <span key={index} className="text-gray-500 italic">
+            {part.replace(/\*/g, '')}
+          </span>
+        );
       } else {
-        // Otherwise, apply gray color to the non-quoted parts
-        return <span key={index} className="text-white">{part}</span>;
+        // Default text styling for other content
+        return (
+          <span key={index} className="text-white">
+            {part}
+          </span>
+        );
       }
     });
 
     return <div>{styledText}</div>;
   };
 
-
+ 
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -259,18 +275,18 @@ const ChatPage: React.FC = () => {
           style={{ height: 'calc(100vh - 19rem)' }} // 5rem is the equivalent of h-20
         >
 
-          <div className='container mx-auto  w-full bg-sky-700 text-md text-white p-4 rounded-lg'>
+          <div className='container mx-auto  w-full bg-[#291f2b] text-md text-white p-4 rounded-lg'>
             <div className='font-bold'>
               Scenario :-
             </div>
             <div>
-              {/* < TextScenario text={scenarioPrompt} /> */}
-              <p>{scenarioPrompt} </p>
+              < TextScenario text={scenarioPrompt} />
+              {/* <p>{scenarioPrompt} </p> */}
             </div>
             <div className='p-4 '>
-              <img src="./image/Scenarios/scenario1.webp" alt="Scenario-1" className='w-72 rounded-lg' />
+              <img src={`./image/Scenarios/${scenarioImage}.webp`} alt="Scenario-image" className='w-96 rounded-lg' />
             </div>
-            {/* {scenarioImage} */}
+            {/* {scenarioImage}  */}
           </div>
           {chatHistory.map((entry, index) => (
             <div
@@ -287,31 +303,34 @@ const ChatPage: React.FC = () => {
                 </div>
               )}
               <div
-                className={`p-4 rounded-lg shadow-md ${entry.role === 'user' ? 'bg-[#655762] text-white' : 'bg-[#3A5470] text-white'} max-w-2xl`}
+                className={`p-4 rounded-lg shadow-md ${entry.role === 'user' ? 'bg-[#655762] text-white' : 'bg-[#26384b] text-white'} max-w-2xl`}
               >
-                <p className="">
-                  {index === chatHistory.length - 1 ? (
-                    // Apply the animation only for the last message
+                <p>
+                  {/* {index === chatHistory.length - 1 ? (
+                    
                     entry.content.split(' ').map((word, wordIndex) => (
-                      <span key={wordIndex} className="word" style={{ display: 'inline-block' }}>
-                        {word.split('').map((char, charIndex) => (
-                          <span
-                            key={charIndex}
-                            className="letter"
-                            style={{ animationDelay: `${(wordIndex * 0.3 + charIndex * 0.03)}s` }}
-                          >
-                            {char}
-                          </span>
-                        ))}
-                        <span>&nbsp;</span> {/* To preserve space between words */}
+                      <span
+                        key={wordIndex}
+                        className="word"
+                        style={{
+                          display: 'inline-block',
+                          animation: 'fadeIn 0.5s ease forwards', 
+                          animationDelay: `${wordIndex * 0.1}s`, 
+                          opacity: 0,
+                        }}
+                      >
+                        {word}
+                        <span>&nbsp;</span>
                       </span>
                     ))
                   ) : (
-                    // Display content normally for all other messages
-                    <span>{entry.content}</span>
-                  )}
+                 
+                    <span><TextScenario text={entry.content}/></span>
+                  )} */}
+                <TextScenario text={entry.content}/>
                 </p>
               </div>
+             
               {entry.role === 'user' && (
                 <div className="flex-shrink-0 ml-2">
                   {/* Background Div */}

@@ -28,6 +28,7 @@ const ChatPage: React.FC = () => {
   const [scenarios, setScenarios] = useState<any[]>([]);
   const [selectedScenario, setSelectedScenario] = useState<any>("General chat")
   const [selectedScenarioPrompt, setSelectedScenarioPrompt] = useState<any>("General talking scenario not mention")
+  const [newScenarioImage,setNewScenarioImage]=useState<String>("generalChat.png")
   const [loading, setLoading] = useState<boolean>(false)
   const location = useLocation();
   const { partner } = location.state || {};
@@ -73,15 +74,42 @@ const ChatPage: React.FC = () => {
     fetchData();
   }, []);
   const TextScenario: React.FC<TextWithQuotesProps> = ({ text }) => {
-    // Function to style quoted text as white and the rest as gray
-    const styledText = text.split(/(["'`][^"'"`]*["'`])/g).map((part, index) =>
-      part.match(/(["'`][^"'"`]*["'`])/)
-        ? <span key={index} className="text-white">{part}</span>
-        : <span key={index} className="text-orange-300 italic">{part}</span>
-    );
+    // Function to style text based on specific patterns
+    const styledText = text.split(/(\*\*[^*]+\*\*|#.*?#|\*[^*]+\*)/g).map((part, index) => {
+      if (part.match(/^\*\*[^*]+\*\*$/)) {
+        // Match expressions (e.g., **expression**) and style them white
+        return (
+          <span key={index} className="text-slate-400 font-semibold  ">
+            *{part.replace(/\*\*/g, '')}*
+          </span>
+        );
+      } else if (part.match(/^#.*?#$/)) {
+        // Match bold text (e.g., # bold #) and style it bold
+        return (
+          <span key={index} className="font-medium">
+            {part.replace(/#/g, '')}
+          </span>
+        );
+      } else if (part.match(/^\*[^*]+\*$/)) {
+        // Match environmental text (e.g., *description*) and style it gray + cursive
+        return (
+          <span key={index} className="text-gray-500 italic">
+            {part.replace(/\*/g, '')}
+          </span>
+        );
+      } else {
+        // Default text styling for other content
+        return (
+          <span key={index} className="text-white">
+            {part}
+          </span>
+        );
+      }
+    });
 
     return <div>{styledText}</div>;
   };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -118,7 +146,7 @@ const ChatPage: React.FC = () => {
     }
   };
 
-
+console.log("selected Scenario",selectedScenario)
   useEffect(() => {
     const chatContainer = document.getElementById('chat-history');
     if (chatContainer) {
@@ -126,15 +154,16 @@ const ChatPage: React.FC = () => {
     }
   }, [chatHistory]);
 
-  const handleScenarioChange = (newScenario: string, newScenarioPromt: string) => {
+  const handleScenarioChange = (newScenario: string, newScenarioPromt: string,newScenarioImage:string) => {
     setSelectedScenario(newScenario);
     setSelectedScenarioPrompt(newScenarioPromt)
+    setNewScenarioImage(newScenarioImage)
     // setChatHistory([]); // Clear chat history to start a new chat
   };
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  console.log("chat hisory", selectedScenario)
+  console.log("chat hisory", newScenarioImage)
   return (
     <div className="flex w-full">
       <div className='fixed top-0  flex w-full bg-[#141b23]  h-20 items-center '>
@@ -183,7 +212,7 @@ const ChatPage: React.FC = () => {
             <img
               src={`./AvatarsImage/${partnerImage}`}
               alt={partnerImage}
-              className="w-full  rounded-xl"
+              className="w-full   rounded-xl"
             />
           </div>
           {characterName && partnerPersonality && partnerContext ? (
@@ -206,7 +235,7 @@ const ChatPage: React.FC = () => {
                 ? "from-orange-500 to-blue-500 "
                 : "from-pink-500 to-blue-500"
                 }  cursor-pointer`}
-              onClick={() => handleScenarioChange(scenario.topic, scenario.prompt)}
+              onClick={() => handleScenarioChange(scenario.topic, scenario.prompt,scenario.image)}
             >
 
 
@@ -256,16 +285,17 @@ const ChatPage: React.FC = () => {
           style={{ height: 'calc(100vh - 19rem)' }} // 5rem is the equivalent of h-20
 
         >
-          <div className='container mx-auto  w-full bg-sky-700 text-md text-white p-4 rounded-lg'>
+          <div className='container mx-auto  w-full bg-[#291f2b]  p-4 rounded-lg'>
             <div className='font-bold'>
               Scenario :-{selectedScenario}
             </div>
             <div>
-              {/* < TextScenario text={selectedScenarioPrompt} /> */}
-              <p>{selectedScenarioPrompt} </p>
+              <p> < TextScenario text={selectedScenarioPrompt} /></p>
+             
+              {/* <p>{selectedScenarioPrompt} </p> */}
             </div>
             <div className='p-4 '>
-              <img src="./image/Scenarios/scenario1.webp" alt="Scenario-1" className='w-72 rounded-lg' />
+              <img src={`./image/Scenarios/${newScenarioImage}.webp`} alt="Scenario-1" className='w-72 rounded-lg' />
             </div>
           </div>
           <div className='container mx-auto'>
@@ -279,35 +309,37 @@ const ChatPage: React.FC = () => {
                     <img
                       src={`./AvatarsImage/${partnerImage}`}
                       alt={partnerImage}
-                      className="w-14 rounded-full"
+                      className="w-12 h-12 rounded-full  object-cover" 
                     />
                   </div>
                 )}
-                <div
-                  className={`p-4 rounded-lg shadow-md ${entry.role === 'user' ? 'bg-[#655762] text-white' : 'bg-[#3A5470] text-white'} max-w-2xl`}
-                >
-                  <p className="">
-                    {index === chatHistory.length - 1 ? (
-                      // Apply the animation only for the last message
-                      entry.content.split(' ').map((word, wordIndex) => (
-                        <span key={wordIndex} className="word" style={{ display: 'inline-block' }}>
-                          {word.split('').map((char, charIndex) => (
-                            <span
-                              key={charIndex}
-                              className="letter"
-                              style={{ animationDelay: `${(wordIndex * 0.3 + charIndex * 0.03)}s` }}
-                            >
-                              {char}
-                            </span>
-                          ))}
-                          <span>&nbsp;</span> {/* To preserve space between words */}
-                        </span>
-                      ))
-                    ) : (
-                      // Display content normally for all other messages
-                      <span>{entry.content}</span>
-                    )}
-                  </p>
+               <div
+                className={`p-4 rounded-lg shadow-md ${entry.role === 'user' ? 'bg-[#655762] text-white' : 'bg-[#26384b] text-white'} max-w-2xl`}
+              >
+                  <p>
+                  {/* {index === chatHistory.length - 1 ? (
+                    
+                    entry.content.split(' ').map((word, wordIndex) => (
+                      <span
+                        key={wordIndex}
+                        className="word"
+                        style={{
+                          display: 'inline-block',
+                          animation: 'fadeIn 0.5s ease forwards', 
+                          animationDelay: `${wordIndex * 0.1}s`, 
+                          opacity: 0,
+                        }}
+                      >
+                        {word}
+                        <span>&nbsp;</span>
+                      </span>
+                    ))
+                  ) : (
+                 
+                    <span><TextScenario text={entry.content}/></span>
+                  )} */}
+                <TextScenario text={entry.content}/>
+                </p>
                 </div>
                 {entry.role === 'user' && (
                   <div className="flex-shrink-0 ml-2">
@@ -339,7 +371,7 @@ const ChatPage: React.FC = () => {
                 <img
                       src={`./AvatarsImage/${partnerImage}`}
                       alt={partnerImage}
-                      className="w-14 rounded-full"
+                      className="w-12 h-12 rounded-full  object-cover" 
                     />
                 </div>
                 <div className="p-4 items-start">
