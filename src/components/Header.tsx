@@ -25,6 +25,7 @@ const Header: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [isModalPricingOpen, setIsPricingModalOpen] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [user, setUser] = useState<{ name: string; email: string; picture:string } | null>(null);
   const accessToken = localStorage.getItem('access_token');
   const userId = localStorage.getItem('user_id');
 
@@ -49,6 +50,14 @@ const Header: React.FC = () => {
     navigate("/");
   };
 
+ useEffect(() => {
+    if (accessToken) {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }
+  }, [accessToken]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -160,8 +169,8 @@ const Header: React.FC = () => {
 
               <>
                 <div className='hidden md:block'>
-                  <button onClick={() => navigate("/settings")} className="p-4 bg-slate-700 rounded-full">
-                    <FaUserLarge size={20} />
+                  <button onClick={() => navigate("/settings")} className=" bg-slate-700 rounded-full">
+                   {user?.picture !==null ? <img src={user?.picture} alt="Google Login" className="w-12  rounded-full" />:<FaUserLarge size={20} />} 
                   </button>
                 </div>
                 <div className='block md:hidden'>

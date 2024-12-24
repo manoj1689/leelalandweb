@@ -32,6 +32,9 @@ const ChatPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [aiResponse,setAiResponse]=useState<{ role: string; content: string }[]>([]);
   const accessToken = localStorage.getItem('access_token');
+
+
+
   useEffect(() => {
     if (accessToken) {
       const storedUser = localStorage.getItem('user');
@@ -185,11 +188,9 @@ const ChatPage: React.FC = () => {
 
             <button
               onClick={() => navigate("/settings")}
-              className='flex p-4 bg-slate-700 rounded-full justify-center items-center'
+              className='flex  bg-slate-700 rounded-full justify-center items-center'
             >
-              <div >
-                <FaUserLarge size={20} />
-              </div>
+               {user?.picture !==null ? <img src={user?.picture} alt="Google Login" className="w-12 rounded-full" />:<FaUserLarge size={20} />} 
             </button>
           </div>
         </div>

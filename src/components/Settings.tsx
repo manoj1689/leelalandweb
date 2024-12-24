@@ -13,13 +13,22 @@ import "react-multi-carousel/lib/styles.css";
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; email: string; picture:string  } | null>(null);
   const [listSelectedCharacter, setListSelectedCharacter] = useState<any[]>([]);
   const [editMode, setEditMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true); // Manage sidebar visibility
-
   const accessToken = localStorage.getItem('access_token');
   const token = localStorage.getItem('user_token');
+
+   useEffect(() => {
+      if (accessToken) {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+      }
+    }, [accessToken]);
+
 
 
 
@@ -106,10 +115,10 @@ const Settings: React.FC = () => {
 
               <button
 
-                className='flex p-4 bg-slate-700 rounded-full justify-center items-center'
+                className='flex  bg-slate-700 rounded-full justify-center items-center'
               >
                 <div >
-                  <FaUserLarge size={20} />
+                  {user?.picture !==null ? <img src={user?.picture} alt="Google Login" className="w-12 rounded-full" />:<FaUserLarge size={20} />}
                 </div>
               </button>
             </div>

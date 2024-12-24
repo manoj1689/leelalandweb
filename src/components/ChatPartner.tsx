@@ -20,6 +20,7 @@ const ChatPage: React.FC = () => {
   const token = localStorage.getItem('access_token');
   const storedUserId = localStorage.getItem('user_id') || '';
   const [user_id] = useState<string>(storedUserId);
+  const [user, setUser] = useState<{ name: string; email: string; picture:string } | null>(null);
   const [chatHistory, setChatHistory] = useState<{ role: string; content: string }[]>([]);
   const [message, setMessage] = useState<string>('');
   const [temperature] = useState<number>(0.7);
@@ -38,7 +39,7 @@ const ChatPage: React.FC = () => {
   const partnerContext = partner.description
   const characterImage = partner.image
   //console.log("partner at chat partner page",partner)
-
+  const accessToken = localStorage.getItem('access_token');
   useEffect(() => {
     const fetchChatHistory = async () => {
       try {
@@ -73,6 +74,15 @@ const ChatPage: React.FC = () => {
 
     fetchData();
   }, []);
+   useEffect(() => {
+      if (accessToken) {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+      }
+    }, [accessToken]);
+
   const TextScenario: React.FC<TextWithQuotesProps> = ({ text }) => {
     // Function to style text based on specific patterns
     const styledText = text.split(/(\*\*[^*]+\*\*|#.*?#|\*[^*]+\*)/g).map((part, index) => {
@@ -191,11 +201,9 @@ console.log("selected Scenario",selectedScenario)
 
             <button
               onClick={() => navigate("/settings")}
-              className='flex p-4 bg-slate-700 rounded-full justify-center items-center'
+              className='flex  bg-slate-700 rounded-full justify-center items-center'
             >
-              <div >
-                <FaUserLarge size={20} />
-              </div>
+              {user?.picture !==null ? <img src={user?.picture} alt="Google Login" className="w-12 rounded-full" />:<FaUserLarge size={20} />} 
             </button>
           </div>
         </div>

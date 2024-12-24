@@ -14,6 +14,17 @@ const SearchCharacterPage: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filterOption, setFilterOption] = useState<string>("");
+  const [user, setUser] = useState<{ name: string; email: string; picture:string } | null>(null);
+  const accessToken = localStorage.getItem('access_token');
+
+   useEffect(() => {
+      if (accessToken) {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+      }
+    }, [accessToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -195,7 +206,7 @@ const SearchCharacterPage: React.FC = () => {
                 className='flex p-4 bg-slate-700 rounded-full justify-center items-center'
               >
                 <div >
-                  <FaUserLarge size={20} />
+                  {user?.picture !==null ? <img src={user?.picture} alt="Google Login" className="w-12 rounded-full" />:<FaUserLarge size={20} />}
                 </div>
               </button>
             </div>
